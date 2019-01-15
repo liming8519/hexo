@@ -1,5 +1,4 @@
-﻿# sqlserver 2012内存管理
----
+﻿---
 title: sqlserver 2012内存管理
 tags:
   - sqlserver
@@ -33,7 +32,7 @@ SQL Server 2008 R2：
 SQL Server 2012：
 <center>![][6]</center>
 
- - [参考:https://docs.microsoft.com/en-us/previous-versions/sql/sql-server-2012/ms175019(v=sql.110)](https://docs.microsoft.com/en-us/previous-versions/sql/sql-server-2012/ms175019(v=sql.110))
+ - [参考:https://docs.microsoft.com/en-us/previous-versions/sql/sql-server-2012/ms175019(v=sql.110)](https://docs.microsoft.com/en-us/previous-versions/sql/sql-server-2012/ms175019&#40;v=sql.110&#41;)
 
   
   
