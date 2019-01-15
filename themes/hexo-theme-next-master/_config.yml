@@ -56,6 +56,14 @@ favicon:
 # Leave rss as empty to use site's feed link, and install hexo-generator-feed: `npm install hexo-generator-feed --save`.
 # Set rss to specific value if you have burned your feed already.
 rss:
+# Extensions
+plugins:
+    hexo-generator-feed
+#Feed atom
+feed:
+    type: atom
+    path: atom.xml
+    limit: 20
 
 footer:
   # Specify the date when the site was setup.
@@ -326,10 +334,10 @@ codeblock:
 # If true, reward would be displayed in every article by default.
 # And you can show or hide one article specially through add page variable `reward: true/false`.
 reward:
-  enable: false
-  #comment: Donate comment here
-  #wechatpay: /images/wechatpay.jpg
-  #alipay: /images/alipay.jpg
+  enable: true
+  comment: 坚持原创技术分享，您的支持将鼓励我继续创作!
+  wechatpay: /images/wechatpay.jpg
+  alipay: /images/alipay.jpg
   #bitcoin: /images/bitcoin.jpg
 
 # Related popular posts
@@ -570,12 +578,12 @@ gitment:
 # Demo: https://gitalk.github.io
 # Reference: https://asdfv1929.github.io/2018/01/20/gitalk/, https://liujunzhou.cn/2018/8/10/gitalk-error/#more
 gitalk:
-  enable: false
-  github_id:  # Github repo owner
-  repo:  # Repository name to store issues.
-  client_id:  # Github Application Client ID
-  client_secret:  # Github Application Client Secret
-  admin_user:  # GitHub repo owner and collaborators, only these guys can initialize github issues
+  enable: true
+  github_id: zixujing # Github repo owner
+  repo: zixujing.github.io # Repository name to store issues.
+  client_id: 5b70ca7e539c6f429e41 # Github Application Client ID
+  client_secret: 860dfb26277b94c6a7676aec3472214187a67562 # Github Application Client Secret
+  admin_user: zixujing # GitHub repo owner and collaborators, only these guys can initialize github issues
   distraction_free_mode: true # Facebook-like distraction free mode
 
 # Baidu Share
