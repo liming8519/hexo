@@ -74,7 +74,7 @@ wait_timeout=1800
 max_connections=3200
 max_user_connections=800
 innodb_thread_concurrency=4
-skip-name-resolve
+skip-name-resolve #在5.7.18安装是使用此参数会有问题，不能
 innodb_buffer_pool_size=100M
 innodb_log_buffer_size=20M
 read_buffer_size=10M
