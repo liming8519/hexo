@@ -16,6 +16,7 @@ log-bin=master-bin
 ---slaver----
 server-id=2
 log-bin=slavera-bin
+log-slave-updates
 ```
 ## 备份master
 ```
