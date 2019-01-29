@@ -61,7 +61,7 @@ $> ./mysqld --initialize --user=mysql --basedir=/usr/local/mysql/ --datadir=/opt
 
 配置数据库
 ----------
-```
+```shell
 $>vi /etc/my.cnf
 #配置如下
 [mysqld]
@@ -82,6 +82,8 @@ sort_buffer_size=10M
 read_rnd_buffer_size=10M
 server-id=100
 log-bin = master
+max_allowed_packet=20M 
+lower_case_table_names=1
 [mysql]
 default-character-set=utf8
 ```
