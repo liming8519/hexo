@@ -28,10 +28,12 @@ Oracle版本是11.2.0.4
 $> echo "
 fs.aio-max-nr = 1048576
 fs.file-max = 6815744
+#单位是页
 kernel.shmall = 7864320
 kernel.shmmax = 132212254720
 kernel.shmmni = 4096
 #semaphores: semmsl, semmns, semopm, semmni
+#SEMMSL==>processes+10 SEMMNS===>SEMMNI*SEMMSL SEMOPM====>系统调用允许的信号量最大个数至少100
 kernel.sem = 250 32000 100 128
 net.core.rmem_default=262144
 net.core.rmem_max=16777216
