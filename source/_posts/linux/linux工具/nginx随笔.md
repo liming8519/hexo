@@ -8,20 +8,23 @@ date: 2019-02-11 01:00:00
 ---
 > nginx笔记
 <!-- more -->
+## 网络
+![](https://raw.githubusercontent.com/zixujing/book1.github.io/master/image/20190212/30193702-7287165c73e7440382207309e07fcbb5.png)
+![](https://raw.githubusercontent.com/zixujing/book1.github.io/master/image/20190212/30193703-330b281cddc5439f99eb027ac1c9627c.png)
 
 ## sendfile
-- 读取文件并socket传输的普通过程
+###  读取文件并socket传输的普通过程
 0. read(file,tmp_buf, len);
    write(socket,tmp_buf, len);
 1. 系统调用 read()产生一个上下文切换，从 user mode 切换到 kernel mode，然后 DMA 执行拷贝，把文件数据从硬盘读到一个 kernel buffer 里。
 2. 数据从 kernel buffer拷贝到 user buffer，然后系统调用 read() 返回，这时又产生一个上下文切换，从kernel mode 切换到 user mode。
 3. 系统调用write()产生一个上下文切换，从 user mode切换到 kernel mode，然后把步骤2读到 user buffer的数据拷贝到 kernel buffer，不过这次是个不同的 kernel buffer，这个 buffer和 socket相关联。
 4. 系统调用 write()返回，产生一个上下文切换，从 kernel mode 切换到 user mode ，然后 DMA 从 kernel buffer拷贝数据到协议栈。
-- sendfile的协议栈传输过程
+###  sendfile的协议栈传输过程
 0. sendfile(socket,file, len);
 1. 系统调用sendfile()通过 DMA把硬盘数据拷贝到 kernel buffer，然后数据被 kernel直接拷贝到另外一个与 socket相关的 kernel buffer。这里没有 user mode和 kernel mode之间的切换，在 kernel中直接完成了从一个 buffer到另一个 buffer的拷贝。
 2. DMA 把数据从 kernelbuffer 直接拷贝给协议栈，没有切换，也不需要数据从 user mode 拷贝到 kernel mode，因为数据就在 kernel 里。
-- 适用场景
+###  适用场景
 sendfile 是将 in_fd 的内容发送到 out_fd 。而 in_fd 不能是 socket ， 也就是只能文件句柄。 所以当 Nginx 是一个静态文件服务器的时候，开启 SENDFILE 配置项能大大提高 Nginx 的性能。 但是当 Nginx 是作为一个反向代理来使用的时候，SENDFILE 则没什么用了，因为 Nginx 是反向代理的时候。 in_fd 就不是文件句柄而是 socket，此时就不符合 sendfile 函数的参数要求了。
 
 ## accept_mutex
@@ -30,4 +33,6 @@ sendfile 是将 in_fd 的内容发送到 out_fd 。而 in_fd 不能是 socket �
 
 ## multi_accept
 1. 在Nginx获得有新连接的通知之后,接受尽可能多的连接。
+
+## tcp_nopush
 
