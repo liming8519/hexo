@@ -1,15 +1,15 @@
 ---
-title: redis¼¯Èº´î½¨ÎÄµµ
+title: redisé›†ç¾¤æ­å»ºæ–‡æ¡£
 tags:
   - tool
 categories:
   - linux
 date: 2019-02-14 01:00:00
 ---
-> redis¼¯Èº´î½¨ÎÄµµ
+> redisé›†ç¾¤æ­å»ºæ–‡æ¡£
 <!-- more -->
 
-## ±àÒë°²×°
+## ç¼–è¯‘å®‰è£…
 ```
 tar -xzvf redis-4.0.2.tar.gz 
 cd redis-4.0.2
@@ -17,9 +17,9 @@ yum install gcc
 make MALLOC=libc
 make install
 ```
-## ´´½¨redis½Úµã,ÈıÌ¨·şÎñÆ÷
+## åˆ›å»ºredisèŠ‚ç‚¹,ä¸‰å°æœåŠ¡å™¨
 ```
-==¡·81
+==ã€‹81
 mkdir /home/redis_cluster
 cd /home/redis_cluster
 mkdir 7000 7001
@@ -44,7 +44,7 @@ cluster-config-file nodes_7001.conf
 cluster-node-timeout 15000
 appendonly yes
 
-==¡·82
+==ã€‹82
 mkdir /home/redis_cluster
 cd /home/redis_cluster
 mkdir 7000 7001
@@ -70,7 +70,7 @@ cluster-node-timeout 15000
 appendonly yes
 
 
-==¡·84
+==ã€‹84
 mkdir /home/redis_cluster
 cd /home/redis_cluster
 mkdir 7000 7001
@@ -95,19 +95,19 @@ cluster-config-file nodes_7001.conf
 cluster-node-timeout 15000
 appendonly yes
 ```
-## Æô¶¯¸÷¸ö½Úµã£¬ÈıÌ¨·şÎñÆ÷
+## å¯åŠ¨å„ä¸ªèŠ‚ç‚¹ï¼Œä¸‰å°æœåŠ¡å™¨
 ```
 redis-server /home/redis_cluster/7000/redis.conf
 redis-server /home/redis_cluster/7001/redis.conf
 ```
-## ´´½¨¼¯Èº£¬Ö»ÔÚredis-trib.rbÖ´ĞĞ¶Ë°²×°ÒÔÏÂ³ÌĞò
+## åˆ›å»ºé›†ç¾¤ï¼Œåªåœ¨redis-trib.rbæ‰§è¡Œç«¯å®‰è£…ä»¥ä¸‹ç¨‹åº
 ```
-redis-3.2.2.gemÎÄ¼ş¿½±´µ½84·şÎñÆ÷£¬ÒÔÏÂÃüÁîÖ»ÔÚ84ÉÏÖ´ĞĞ¡£×¢ÒâÕâÀïµÄrubyµÄredisÇı¶¯°æ±¾²»ÓÃºÍredis·şÎñ¶Ë°æ±¾Ò»ÖÂ£¬rubyµÄredisÇı¶¯°æ±¾ÊÇredis-3.2.2£¬redis·şÎñ¶ËµÄ°æ±¾ÊÇredis-4.0.2
+redis-3.2.2.gemæ–‡ä»¶æ‹·è´åˆ°84æœåŠ¡å™¨ï¼Œä»¥ä¸‹å‘½ä»¤åªåœ¨84ä¸Šæ‰§è¡Œã€‚æ³¨æ„è¿™é‡Œçš„rubyçš„redisé©±åŠ¨ç‰ˆæœ¬ä¸ç”¨å’ŒredisæœåŠ¡ç«¯ç‰ˆæœ¬ä¸€è‡´ï¼Œrubyçš„redisé©±åŠ¨ç‰ˆæœ¬æ˜¯redis-3.2.2ï¼ŒredisæœåŠ¡ç«¯çš„ç‰ˆæœ¬æ˜¯redis-4.0.2
 yum install ruby ruby-devel rubygems rpm-build
 gem install redis-3.2.2.gem
 ./redis-trib.rb create --replicas 1 10.24.70.81:7000 10.24.70.81:7001 10.24.70.82:7000 10.24.70.82:7001 10.24.70.84:7000 10.24.70.84:7001
 ```
-## ¼òµ¥Î¬»¤
+## ç®€å•ç»´æŠ¤
 ```
 ./redis-trib.rb check 10.24.70.81:7000
 cluster info
