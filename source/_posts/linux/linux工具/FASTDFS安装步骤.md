@@ -34,7 +34,7 @@ date: 2019-03-04 05:00:00
 
 bind_addr=10.24.70.83
 max_connections=500
-base_path=/root/filedata/tracker
+base_path=/home/filedata/tracker
 
 [root@fileserver fdfs]# cp storage.conf.sample storage.conf
 [root@fileserver fdfs]# mkdir /home/filedata/storage
@@ -51,4 +51,16 @@ tracker_server=10.24.70.83:22122
 [root@fileserver etc]# chkconfig fdfs_storaged on
 [root@fileserver etc]# service fdfs_trackerd start
 [root@fileserver etc]# service fdfs_storaged start
+```
+
+## 上传测试
+```
+#cd /etc/fdfs
+#cp client.conf.sample client.conf
+#vim client.conf
+# Client 的数据和日志目录
+base_path=/home/client
+# Tracker端口
+tracker_server=10.24.70.83:22122
+#/usr/bin/fdfs_upload_file /etc/fdfs/client.conf namei.jpeg
 ```
