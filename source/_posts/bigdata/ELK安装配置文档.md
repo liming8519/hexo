@@ -371,6 +371,39 @@ output {
     }
 }
 ```
+# logstash jdbc配置示例
+
+```
+input{  
+    jdbc{  
+        jdbc_connection_string => "jdbc:oracle:thin:@//192.168.106.174:1521/orcl"
+        jdbc_user => "smartecap_data"
+        jdbc_password => "123456"
+        jdbc_driver_library => "/home/es/logstash-6.5.3/lib/ojdbc6-11.2.0.3.jar"
+        jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+        jdbc_paging_enabled => "true"
+        jdbc_page_size => "5000000"
+        lowercase_column_names => "false"
+        statement => "select * from DT_STUDENTINFO"
+        schedule => "* * * * *"
+        type => "DT_STUDENTINFO"
+        use_column_value => "true"
+        tracking_column => "ID" #oracle字段默认大写
+    }
+}
+filter {
+  mutate {
+    remove_field => [ "@timestamp","@version"]
+  }
+}
+output{  
+    elasticsearch{  
+        hosts => "192.168.106.213:9200"
+        index => "dt_studentinfo"
+        document_id => "%{ID}"
+    }  
+} 
+```
 # elasticsearch 集群配置
 >elasticsearch.yml文件配置示例
 ```roboconf
