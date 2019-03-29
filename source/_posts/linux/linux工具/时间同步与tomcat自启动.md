@@ -56,3 +56,37 @@ systemctl enable tomcat8_hcpt
 systemctl start tomcat8_hcpt
 ```
 
+## centos7+tomcat9自启动
+### 添加变量到setclasspath.sh中,catalina.sh会调用
+```
+vi /usr/local/tomcat9/bin/setclasspath.sh
+# -----------------------------------------------------------------------------
+#  Set JAVA_HOME or JRE_HOME if not already set, ensure any provided settings
+#  are valid and consistent with the selected start-up options and set up the
+#  endorsed directory.
+# -----------------------------------------------------------------------------
+export JAVA_HOME=/usr/local/jdk
+export JRE_HOME=/usr/local/jdk/jre
+```
+### 设置启动脚本
+```
+vi /usr/lib/systemd/system/tomcat9.service
+#/usr/lib/systemd/system/tomcat9.service
+[Unit]
+Description=Tomcat9
+After=syslog.target network.target remote-fs.target nss-lookup.target
+[Service]
+Type=oneshot
+PIDFile=/usr/local/tomcat9/tomcat.pid
+ExecStart=/usr/local/tomcat9/bin/startup.sh
+ExecStop=/usr/local/tomcat9/bin/shutdown.sh
+ExecReload=/bin/kill -s HUP $MAINPID
+RemainAfterExit=yes
+[Install]
+WantedBy=multi-user.target
+```
+### 启动
+```
+systemctl enable tomcat9
+systemctl start tomcat9
+```
