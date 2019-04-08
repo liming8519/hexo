@@ -1,5 +1,5 @@
 ---
-title: hadoop2.8.5+hbase2.1.4环境搭建
+title: hadoop2.8.5+hbase2.1.4+spark2.3.3环境搭建
 tags:
   - hadoop
 categories:
@@ -355,3 +355,43 @@ export PATH=/opt/hbase214/hbase-2.1.4/bin:$PATH
 ### 关于报错解决
 * 报错信息是：Caused by: java.lang.ClassNotFoundException: org.apache.htrace.SamplerBuilder
 * 进过百度说缺少htrace-core-3.1.0-incubating.jar包但hbase2.1.4的lib\client-facing-thirdparty目录下没有这个文件，解决方法是下载hbase2.1.3在目录lib\client-facing-thirdparty中找到文件htrace-core-3.1.0-incubating.jar拷贝到hbase2.1.4的lib目录中。
+
+
+##spark安装（2.3.3）
+### 以下仅在117上执行
+```
+[root@hadoopc ~]# cd /home
+[root@hadoopc opt]# mkdir spark233
+[root@hadoopc opt]# tar -xzvf /opt/spark-2.3.3-bin-hadoop2.7.tgz -C /home/spark233/
+[root@hadoopc home]# cd spark233/spark-2.3.3-bin-hadoop2.7/
+[root@hadoopc spark-2.3.3-bin-hadoop2.7]# cd conf
+[root@hadoopc conf]# cp spark-env.sh.template spark-env.sh
+[root@hadoopc conf]# vi spark-env.sh 
+export JAVA_HOME=/opt/jdk1.8
+export HADOOP_CONF_DIR=/opt/hadoop285/hadoop-2.8.5/etc/hadoop/
+export YARN_CONF_DIR=/opt/hadoop285/hadoop-2.8.5/etc/hadoop/
+export SPARK_MASTER_PORT=7077
+export SPARK_HOME=/home/spark233/spark-2.3.3-bin-hadoop2.7
+[root@hadoopc conf]# cp slaves.template slaves
+[root@hadoopc conf]# vi slaves
+#localhost
+#192.168.11.117
+#不需要指定MASTER在哪里启动哪里就是Master
+192.168.11.118
+192.168.11.119
+[root@hadoopc conf]# cd ../../..
+[root@hadoopc home]# scp -r spark233/ 192.168.11.118:`pwd`
+[root@hadoopc home]# scp -r spark233/ 192.168.11.119:`pwd`
+```
+
+###标记
+```
+export SPARK_HOME=/home/spark233/spark-2.3.3-bin-hadoop2.7
+export PATH=$PATH:$SPARK_HOME/sbin:$SPARK_HOME/bin
+```
+
+###启动
+```
+[root@hadoopc sbin]# ./start-master.sh 
+[root@hadoopc sbin]# ./start-all.sh 
+```
