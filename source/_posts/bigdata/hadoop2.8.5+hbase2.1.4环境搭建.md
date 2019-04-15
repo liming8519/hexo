@@ -8,10 +8,10 @@ date: 2019-04-04 02:00:00
 
 ---
 
-　　
+
 > hadoop2.8.5+hbase2.1.4环境搭建
 <!-- more -->
-　　
+
 ## centos7.3 配置
 * 119设置
 ```
@@ -93,7 +93,8 @@ id_rsa  id_rsa.pub  known_hosts
 
 ## 安装hadoop
 
-###以下配置仅在117上执行
+### 以下配置仅在117上执行
+
 #### hdoop配置
 ```
 #仅在117上执行
@@ -209,7 +210,8 @@ export JAVA_HOME=/opt/jdk1.8
 export JAVA_HOME=/opt/jdk1.8
 
 ```
-####存放信息相关文件创建
+#### 存放信息相关文件创建
+
 ```
 [root@hadoopc hadoop285]# mkdir /opt/hadoop285/tmp
 [root@hadoopc hadoop285]# mkdir /opt/hadoop285/hdfs
@@ -222,8 +224,9 @@ export JAVA_HOME=/opt/jdk1.8
 [root@hadoopc opt]# scp -r hadoop285/ 192.168.11.118:`pwd`
 [root@hadoopc opt]# scp -r hadoop285/ 192.168.11.119:`pwd`
 ```
-##启动hdoop
-###只是一个记录
+## 启动hdoop
+### 只是一个记录
+
 ```
 #只是一个记录
 export JAVA_HOME=/opt/jdk1.8
@@ -231,16 +234,17 @@ export HADOOP_HOME=/opt/hadoop285/hadoop-2.8.5
 export PATH=$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$JAVA_HOME/bin:$PATH
 　　
 ```
-###启动
+### 启动
+
 ```
 [root@hadoopa fk]# hdfs namenode -format
 [root@hadoopa fk]# start-dfs.sh
 [root@hadoopa fk]# start-yarn.sh
 
 ```
-###打开http://192.168.11.119:50070/验证
+### 打开http://192.168.11.119:50070/验证
 
-　　
+
 ## zookeeper安装版本是3.4.14
 ### zookeeper仅安装到117上，非集群安装
 #### 配置
@@ -261,8 +265,8 @@ dataLogDir=/opt/zookeeper3414/logs
 ```
 export PATH=/opt/zookeeper3414/zookeeper-3.4.14/bin:$PATH
 ```
-　
-　　
+
+
 #### 启动zookeeper
 ```
 [root@hadoopc conf]# zkServer.sh start
@@ -271,10 +275,9 @@ export PATH=/opt/zookeeper3414/zookeeper-3.4.14/bin:$PATH
 [root@hadoopc conf]# zkServer.sh status
 #QuorumPeerMain是zookeeper的进程名字
 ```
-　　
-　　
-　　
-##HBASE安装
+
+
+## HBASE安装
 
 ### 以下仅在117上执行
 ```
@@ -322,7 +325,7 @@ export JAVA_HOME=/opt/jdk1.8
     <value>false</value>
   </property>
 　<property>
-　    <name>hbase.root.dir</name>
+　    <name>hbase.rootdir</name>
 　    <value>hdfs://192.168.11.119:9000/hbase</value>
 　  </property>
 </configuration>
@@ -339,14 +342,14 @@ export JAVA_HOME=/opt/jdk1.8
 export PATH=/opt/hbase214/hbase-2.1.4/bin:$PATH
 ```
 ### 配置拷贝到118和119
-　　
+
 ```
 [root@hadoopc opt]# cd /opt　　
 [root@hadoopc opt]# scp -r hbase214/ 192.168.11.118:`pwd`
 [root@hadoopc opt]# scp -r hbase214/ 192.168.11.119:`pwd`
 
 ```
-　　
+
 ### 启动hbase
 
 ```
@@ -356,8 +359,8 @@ export PATH=/opt/hbase214/hbase-2.1.4/bin:$PATH
 * 报错信息是：Caused by: java.lang.ClassNotFoundException: org.apache.htrace.SamplerBuilder
 * 进过百度说缺少htrace-core-3.1.0-incubating.jar包但hbase2.1.4的lib\client-facing-thirdparty目录下没有这个文件，解决方法是下载hbase2.1.3在目录lib\client-facing-thirdparty中找到文件htrace-core-3.1.0-incubating.jar拷贝到hbase2.1.4的lib目录中。
 
+## spark安装（2.3.3）
 
-##spark安装（2.3.3）
 ### 以下仅在117上执行
 ```
 [root@hadoopc ~]# cd /home
@@ -384,13 +387,14 @@ export SPARK_HOME=/home/spark233/spark-2.3.3-bin-hadoop2.7
 [root@hadoopc home]# scp -r spark233/ 192.168.11.119:`pwd`
 ```
 
-###标记
+### 标记
+
 ```
 export SPARK_HOME=/home/spark233/spark-2.3.3-bin-hadoop2.7
 export PATH=$PATH:$SPARK_HOME/sbin:$SPARK_HOME/bin
 ```
 
-###启动
+### 启动
 ```
 [root@hadoopc sbin]# ./start-master.sh 
 [root@hadoopc sbin]# ./start-all.sh 
