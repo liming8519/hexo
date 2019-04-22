@@ -1,17 +1,17 @@
-
+ï»¿
 ---
-title: greenplum4.3+centos°²×°
+title: greenplum4.3+centoså®‰è£…
 tags:
   - postgresql
 categories:
   - db
 date: 2019-04-22 01:00:00
 ---
-> greenplum4.3+centos°²×°
+> greenplum4.3+centoså®‰è£…
 <!-- more -->
-¡¡¡¡
-¡¡¡¡
-### ³õÊ¼»¯
+ã€€ã€€
+ã€€ã€€
+### åˆå§‹åŒ–
 ```
 [root@mdw ~]# vi /etc/hosts
 172.16.69.130 mdw
@@ -41,13 +41,13 @@ net.core.rmem_max = 2097152
 net.core.wmem_max = 2097152
 vm.overcommit_memory = 2
 ```
-### ´´½¨ÓÃ»§
+### åˆ›å»ºç”¨æˆ·
 ```
 groupadd -g 530 gpadmin
 useradd -g 530 -m -d /home/gpadmin -s /bin/bash gpadmin
 passwd gpadmin
 ```
-### ´´½¨hostlist
+### åˆ›å»ºhostlist
 ```
 su - gpadmin
 mkdir -p /home/gpadmin/conf
@@ -57,35 +57,35 @@ hadoopb
 hadoopc
 
 ```
-¡¡¡¡
-### ´´½¨seg_host
+ã€€ã€€
+### åˆ›å»ºseg_host
 ```
 vi /home/gpadmin/conf/seg_host
 hadoopb
 hadoopc
 ```
-### ÅäÖÃsshÃâÃÜÂëµÇÂ¼
-¡¡¡¡
+### é…ç½®sshå…å¯†ç ç™»å½•
+ã€€ã€€
 ```
 su - gpadmin
 source /usr/local/greenplum-db-4.3.26.0/greenplum_path.sh
  gpssh-exkeys -f /home/gpadmin/conf/hostlist
 ```
-### ÔÚSegment½ÚµãÉÏ°²×°Greenplum DB
-¡¡¡¡
+### åœ¨SegmentèŠ‚ç‚¹ä¸Šå®‰è£…Greenplum DB
+ã€€ã€€
 ```
 cd /usr/local
 tar -cvf gdb.tar greenplum-db-4.3.26.0/
 scp gdb.tar hadoopa:/usr/local
 scp gdb.tar hadoopb:/usr/local
 ```
-#### Ã¿¸ö½ÚµãÖ´ĞĞ½âÑ¹
+#### æ¯ä¸ªèŠ‚ç‚¹æ‰§è¡Œè§£å‹
 ```
 cd /usr/local
 tar -xvf gdb.tar 
 ln -s greenplum-db-4.3.26.0/ greenplum-db
 ```
-### ³õÊ¼»¯
+### åˆå§‹åŒ–
 ```
 cd conf
 gpssh -f hostlist
@@ -94,7 +94,7 @@ mkdir gpdata
 cd gpdata
  mkdir gpmaster gpdatap1 gpdatap2 gpdatam1 gpdatam2
 ```
-### ±ê¼Ç
+### æ ‡è®°
 ```
 [gpadmin@hadoopc conf]$ vi pgsh
 export PGPORT=5432
@@ -102,8 +102,8 @@ export PGDATABASE=testDB
 export MASTER_DATA_DIRECTORY=/home/gpadmin/gpdata/gpseg-1
 source /usr/local/greenplum-db/greenplum_path.sh
 ```
-¡¡¡¡
-### ³õÊ¼»¯£¬Ö»ÅäÖÃÖ÷½Úµã
+ã€€ã€€
+### åˆå§‹åŒ–ï¼Œåªé…ç½®ä¸»èŠ‚ç‚¹
 ```
 vi /home/gpadmin/conf/gpinitsystem_config
 ARRAY_NAME="Greenplum"
@@ -120,7 +120,7 @@ MIRROR_REPLICATION_PORT_BASE=44000
 declare -a MIRROR_DATA_DIRECTORY=(/home/gpadmin/gpdata/gpdatam1 /home/gpadmin/gpdata/gpdatam2)
 MACHINE_LIST_FILE=/home/gpadmin/conf/seg_host
 ```
-### ³õÊ¼»¯ÏµÍ³
+### åˆå§‹åŒ–ç³»ç»Ÿ
 ```
 gpinitsystem -c /home/gpadmin/conf/gpinitsystem_config -h /home/gpadmin/conf/hostlist
 ```
