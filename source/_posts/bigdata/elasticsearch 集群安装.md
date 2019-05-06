@@ -1,11 +1,16 @@
+---
 title: elasticsearch 集群安装
+date: 2019-05-05 02:00:00
+tags: 
 - elasticsearch 
 categories: 
-- tool 
-date: 2019-05-05 02:00:00
+- tool
+---
 
-> elasticsearch 集群安装
-<--! more -->
+
+>elasticsearch 集群安装
+
+<!-- more -->
 
 ## 环境设置
 > 与ELK文档一致
