@@ -1,5 +1,6 @@
 ---
 title: kafka 集群安装
+tags: 
 - kafka 
 categories: 
 - tool 
