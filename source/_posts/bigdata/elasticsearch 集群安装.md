@@ -120,6 +120,8 @@ PUT _cluster/settings
         "action.auto_create_index": "true" 
     }
 }
+//设置为可以更新
+curl -XPUT -H "Content-Type: application/json" http://127.0.0.1:9200/tb_personnelidmismatch/_settings -d '{"index.blocks.read_only_allow_delete": null}'
 ```
 
 ## 配置总结
