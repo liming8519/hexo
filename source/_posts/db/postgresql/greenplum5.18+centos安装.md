@@ -23,7 +23,7 @@ date: 2019-04-22 01:00:00
 kernel.shmmax = 500000000
 kernel.shmmni = 4096
 kernel.shmall = 4000000000
-kernel.sem = 250 512000 100 2048
+kernel.sem = 500 1024000 200 4096
 kernel.sysrq = 1
 kernel.core_uses_pid = 1
 kernel.msgmnb = 65536
@@ -40,6 +40,13 @@ net.core.netdev_max_backlog = 10000
 net.core.rmem_max = 2097152
 net.core.wmem_max = 2097152
 vm.overcommit_memory = 2
+
+[root@mdw ~]# vi /etc/security/limits.conf
+* soft nofile 65536
+* hard nofile 65536
+* soft nproc 131072
+* hard nproc 131072
+
 ```
 ### 创建用户
 ```
