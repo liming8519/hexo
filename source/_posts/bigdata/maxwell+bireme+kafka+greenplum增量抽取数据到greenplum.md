@@ -75,6 +75,7 @@ producer_partition_by=primary_key
 SQL_BLACKLIST.add(Pattern.compile("\\s*XA\\s+", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE));
 ```
 ## bireme 配置及启动
+> 使用bireme-2.0.0-alpha-1比bireme-1.0.0会好一点
 ### 配置
 ```
 cd 
