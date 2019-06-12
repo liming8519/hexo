@@ -202,6 +202,8 @@ bin/kafka-console-producer.sh --broker-list 192.168.11.97:9092 --topic test
 bin/kafka-console-consumer.sh --boostrap-server 192.168.11.97:9092 --topic test --from-beginning
 bin/kafka-topics.sh --list --zookeeper 192.168.11.97:2181,192.168.11.98:2181,192.168.11.99:2181
 bin/kafka-topics.sh --describe --zookeeper 192.168.11.99:2181 
+bin/kafka-run-class.sh kafka.tools.GetOffsetShell --topic maxwell --partitions 1 --broker-list 192.168.11.99:9092
+
 ```
 
 
