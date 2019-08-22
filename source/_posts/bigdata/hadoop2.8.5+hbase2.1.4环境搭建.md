@@ -328,6 +328,20 @@ export JAVA_HOME=/opt/jdk1.8
 　    <name>hbase.rootdir</name>
 　    <value>hdfs://192.168.11.119:9000/hbase</value>
 　  </property>
+<property>
+  <name>hbase.regionserver.wal.codec</name>
+  <value>org.apache.hadoop.hbase.regionserver.wal.IndexedWALEditCodec</value>
+</property>
+<property>
+  <name>hbase.region.server.rpc.scheduler.factory.class</name>
+  <value>org.apache.hadoop.hbase.ipc.PhoenixRpcSchedulerFactory</value>
+  <description>Factory to create the Phoenix RPC Scheduler that uses separate queues for index and metadata updates</description>
+</property>
+<property>
+  <name>hbase.rpc.controllerfactory.class</name>
+  <value>org.apache.hadoop.hbase.ipc.controller.ServerRpcControllerFactory</value>
+  <description>Factory to create the Phoenix RPC Scheduler that uses separate queues for index and metadata updates</description>
+</property>
 </configuration>
 [root@hadoopc conf]# vi regionservers 
 192.168.11.117
