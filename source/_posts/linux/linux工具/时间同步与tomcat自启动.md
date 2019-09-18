@@ -10,7 +10,52 @@ date: 2019-02-13 05:00:00
 <!-- more -->
 
 ## 时间同步
-### 修改配置
+### 修改配置(同步其他服务器时间同时作为时间服务器)
+```
+[root@localhost ~]# cat /etc/chrony.conf 
+# Use public servers from the pool.ntp.org project.
+# Please consider joining the pool (http://www.pool.ntp.org/join.html).
+#server 0.centos.pool.ntp.org iburst
+#server 1.centos.pool.ntp.org iburst
+#server 2.centos.pool.ntp.org iburst
+#server 3.centos.pool.ntp.org iburst
+
+server 20.120.16.37 iburst
+
+# Ignore stratum in source selection.
+stratumweight 0
+# Record the rate at which the system clock gains/losses time.
+driftfile /var/lib/chrony/drift
+# Enable kernel RTC synchronization.
+rtcsync
+# In first three updates step the system clock instead of slew
+# if the adjustment is larger than 10 seconds.
+makestep 10 3
+# Allow NTP client access from local network.
+
+allow 10.28/16
+
+# Listen for commands only on localhost.
+bindcmdaddress 127.0.0.1
+bindcmdaddress ::1
+# Serve time even if not synchronized to any NTP server.
+
+local stratum 10
+
+keyfile /etc/chrony.keys
+# Specify the key used as password for chronyc.
+commandkey 1
+# Generate command key if missing.
+generatecommandkey
+# Disable logging of client accesses.
+noclientlog
+# Send a message to syslog if a clock adjustment is larger than 0.5 seconds.
+logchange 0.5
+logdir /var/log/chrony
+#log measurements statistics tracking
+[root@localhost ~]# 
+```
+### 修改配置(同步其他服务器的时间)
 ```
 vi /etc/chrony.conf
 server 10.24.70.72 iburst
@@ -24,6 +69,9 @@ systemctl start chronyd
 ```
 chronyc sources
 ```
+### 如果同步时间出现不同步时间的问题请关闭selinux试试
+
+
 ## tomcat自启动
 ### 添加变量到setenv.sh（没有的话在bin目录新建一个）中,catalina.sh会调用
 ```
