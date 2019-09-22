@@ -1,15 +1,15 @@
 ---
-title: mysql自动备份脚本
+title: mysql鑷姩澶囦唤鑴氭湰
 tags:
   - tool
 categories:
   - linux
 date: 2019-09-18 05:00:00
 ---
-> mysql自动备份脚本
+> mysql鑷姩澶囦唤鑴氭湰
 > <!-- more -->
 
-###  脚本编写
+###  鑴氭湰缂栧啓
 
 ```
 [root@localhost ~]# mkdir /home/bak_data
@@ -47,7 +47,7 @@ fi
 [root@localhost ~]# chmod +x bak_mysql.sh
 ```
 
-### 设置定时任务
+### 璁剧疆瀹氭椂浠诲姟
 
 ```
 [root@localhost ~]# vi /etc/corntab
