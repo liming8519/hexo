@@ -171,3 +171,222 @@ date: 2019-08-22 02:00:00
 10000|	hive.server2.thrift.port
 9083|	hive.metastore.uris
 
+## Hadoop配置文件的层级关系
+  在Hadoop源码Configuration类中，先后加载了core-default.xml 和 core-site.xml ;类HdfsConfiguration继承了Configuration类，因此，hdfs-site.xml中的配置如果在core-site.xml 中配置了，那么将覆盖掉这个配置。 同理，yarn-site.xml也是这样的。
+## yarn-site.xml 重点配置讲解
+### 与 memery 相关的配置
+* yarn.nodemanager.resource.memery-mb : 重要
+ 
+>指定NodeManager（NM）可用的内存大小，NM是yarn中的一个组件，是一个Jave服务。这内存值是指NM管理的，用于AppMaster和Map Task 和 Reduce Task 可申请的内存数目。这里主要考虑和Linux系统的协调，避免设置过大被Linux的（Out of Memary Killer）OOMK 杀掉。例如2G的内存，设置为1200（1.2G）是可行的。 
+默认配置被设置为8G，Hadoop就任务NM上就有8G的内存，因此当运行内存过大时，就有可能被linux被OOMK终结。 
+
+* yarn.scheduler.minimum-allocation-mb: 
+
+> 单个任务(每个Container)可申请最少内存，默认1024MB , 就是单个任务要申请的资源的话，ResourceManager(RM)会至少给你分配的内存数，即使你申请了1MB，也会派给你1024MB，因此这个地方需要根据机器配置和作业需求提前配置。 
+
+* yarn.scheduler.increment-allocation-mb 
+
+> 当一个Container拿到的最小内存不足以运行时，他可以申请内存递增，这个配置是配的递增的幅度。 
+
+* yarn.scheduler.maximum-allocation-mb 
+
+> 每个Container最多拿到的内存的数量，这里设置的是一个上限，Container申请资源时可递增直到满足运行需求，但是如果到了上限，就不能递增了。 
+
+> 例：若yarn.scheduler.minimum-allocation-mb是50，yarn.scheduler.increment-allocation-mb是40，当申请60mb的时候，实际申请是80（50 < 60 < 40 * 2 ），当申请30mb的时候，实际是50（30 < 50，就是小于min）。
+
+
+### 与CPU相关的配置
+
+与上节节相似，也可以配置CPU的相应信息： 
+
+* yarn.scheduler.minimum-allocation-vcores 
+* yarn.scheduler.increment-allocation-vcores 
+* yarn.scheduler.maximum-allocation-vcores
+
+
+## mapred-site.xml 重点配置讲解
+### MR AppMaster 相关
+
+* yarn.app.mapreduce.am.resource.mb 
+* yarn.app.mapreduce.am.resource.cpu-vcores 
+
+> 这里am指 Yarn中AppMaster，针对MapReduce计算框架就是MR AppMaster，通过配置这两个选项，可以设定MR AppMaster使用的内存和cpu数量。 默认情况下，yarn.app.mapreduce.am.resource.mb是2G，因此这里必须配置，需要少于yarn.scheduler.minimum-allocation-mb的配置，这样才能成功启动。
+
+### map、reduce task 相关
+
+* mapreduce.map.memory.mb、mapreduce.map.cpu.vcores、mapreduce.reduce.memory.mb、mapreduce.reduce.cpu.vcores 
+> 配置每个map 和 reduce 最多可以申请的内存和cpu数量;如果是单机情况，这里的资源和MR AppMaster 时共存和竞争关系，且都应在yarn.scheduler.minimum-allocation-mb之下，MR AppMaster启动成功后，剩下的资源才用于map、reduce task。
+
+##  JVM 启动时参数设置
+
+* mapreduce.map.java.opts、mapreduce.reduce.java.opts 
+> Java task启动时使用的参数;例如设置Java heap 的大小，会在启动map或者reduce进程时把这些参数附加在启动命令之后。 
+这个地方需要仔细配置，配置不当会引起JVM 不能正常GC。 
+
+
+例如：
+
+- mapreduce.map.memory.mb 设置为了500MB
+- mapreduce.map.java.opts 设置为 -Xmx600m
+- 假设CG为JVM中内存占用达到90%时触发，也就是540MB时会触发
+这时，由于mapreduce.map.memory.mb的限制，map 进程会被提前Kill掉，因此GC永远得不到触发。
+
+## core-site.xml
+
+* fs.defaultFS（老版本是fs.default.name） 
+
+> 默认使用的文件系统类型（hdfs://host1:8020/、viewfs://nsX）
+
+* fs.trash.interval 
+
+> 垃圾箱文件保留多久（单位：分钟）
+
+* io.compression.codecs 
+
+> Java codec
+
+* hadoop.security.authentication 
+
+> Hadoop使用的认证方法（simple或kerberos）
+
+## hdfs-site.xml
+
+• dfs.namenode.name.dir 
+– namenode存放fsimage的目录
+
+• dfs.datanode.data.dir 
+– datanode存放数据块文件的目录
+
+• dfs.namenode.checkpoint.dir 
+– Secondarynamenode启动时使用，放置sn做合并的fsimage及 editlog
+
+• dfs.replication 
+– 数据副本数
+
+• dfs.blocksize 
+– 文件Block大小
+
+• dfs.datanode.handler.count 
+– Datanode IPC 请求处理线程数
+
+##  yarn-site.xml其他配置
+
+* yarn.resourcemanager.hostname、yarn.resourcemanager.address、yarn.resourcemanager.admin.address 
+、yarn.resourcemanager.scheduler.address、 yarn.resourcemanager.resource-tracker.address、 
+yarn.resourcemanager.webapp.address等项目的基本，依据实际rm 的hostname配置
+
+* yarn.scheduler.minimum-allocation-mb 
+
+> Yarn分配内存的最小单位
+
+* yarn.scheduler.increment -allocation-mb 
+
+> 内存分配递增最小单位
+
+* yarn.scheduler.maximum-allocation-mb 
+
+> 每个container最多申请的内存上限
+
+* yarn.scheduler.minimum-allocation-vcores、 
+yarn.scheduler.increment -allocation-vcores、 
+yarn.scheduler.maximum-allocation-vcores 
+
+> 跟以上内存相关的意义相同
+
+* yarn.resourcemanager.am.max-retries 
+
+> AM失败重试次数
+
+* yarn.am.liveness-monitor.expiry-interval-ms 
+
+> AM多久不上报心跳被视为过期
+
+* yarn.resourcemanager.nm.liveness-monitor.interval-ms 
+
+> 多久检查一次nm是否还存活
+
+* yarn.application.classpath 
+
+> Yarn application使用的classpath
+
+* yarn.resourcemanager.scheduler.class 
+
+> 调度器定义，如 org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FairScheduler
+
+* yarn.scheduler.fair.user -as-default -queue 
+
+> 对于fairscheduler使用，是否使用用户名作为任务进入的queue
+
+* yarn.scheduler.fair.preemption 
+
+> Fairescheduler是否支持queue之间任务抢占
+
+* yarn.resourcemanager.max-completed-applications 
+
+> RM中保留的最大的已完成的任务信息数量
+
+* yarn.nodemanager.resource.memory-mb 
+
+> Nm的可用内存
+
+* yarn.nodemanager.local-dirs 
+
+> Nm本地文件目录（主要是一些cache)
+
+* yarn.nodemanager.log-dirs 
+
+> Nm log目录
+
+* yarn.nodemanager.remote-app-log-dir、yarn.logaggregation.retain-seconds、yarn.log-aggregationenable、yarn.nodemanager.logaggregation.compression-type 
+
+> 启动log aggregation的时候使用参数
+
+* yarn.app.mapreduce.am.staging-dir 
+
+> Staging目录，hdfs
+
+## mapred-site.xml 其他配置讲解
+
+* mapreduce.map.speculative、mapreduce.reduce.speculative 
+
+> 是否开启预测执行
+
+* mapreduce.job.reduce.slowstart.completedmaps 
+
+> Map完成多少之后开始启动reduce
+
+* mapreduce.jobhistory.address、mapreduce.jobhistory.webapp.address 
+
+> Jobhistory地址
+
+* mapreduce.framework.name 
+
+> local, classic or yarn
+
+* yarn.app.mapreduce.am.staging -dir、yarn.app.mapreduce.am.resource.mb 
+、yarn.app.mapreduce.am.resource.cpu-vcores、 yarn.app.mapreduce.am.command-opts
+
+> Am相关配置 
+
+* mapreduce.map.java.opts、mapreduce.reduce.java.opts 
+
+> Java task启动时使用的参数
+
+* mapreduce.map.memory.mb、mapreduce.map.cpu.vcores、mapreduce.reduce.memory.mb、mapreduce.reduce.cpu.vcores 
+
+> Map/reduce任务资源设置
+
+* mapreduce.application.classpath 
+
+> Task使用的classpath
+
+## 问答
+
+* yarn.scheduler.minimum-allocation-mb，为app分配内存时最小的配额。 
+* yarn.scheduler.increment-allocation-mb，每次递加申请的内存资源数，比如，若yarn.scheduler.minimum-allocation-mb是50，yarn.scheduler.increment-allocation-mb是40，当申请60mb的时候，实际申请是80（50 < 60 < 40 * 2 ），当申请30mb的时候，实际是50（30 < 50，就是小于min）。 
+* yarn.scheduler.maximum-allocation-mb，单个container可分配的内存总量上限。
+
+* yarn.app.mapreduce.am.resource.mb，执行appManager时需要分配的内存。 
+* mapreduce.map.memory.mb，map任务执行时要申请的内存。 
+* mapreduce.reduce.memory.mb，reduce任务执行时要申请的内存。 
+* mapreduce.task.io.sort.mb，任务在做spill时，内存的缓存量，之所以提出来，因为当我们将mapreduce.map.memory.mb和apreduce.reduce.memory.mb减小时，需要将这个值也减小，否则会出现task任务资源不够跑不成功的问题
