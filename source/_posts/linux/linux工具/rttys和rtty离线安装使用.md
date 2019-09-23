@@ -249,3 +249,86 @@ rtty -I "237" -h 192.168.106.237 -p 5912 -s
 ```
 -t 34762d07637276694b938d23f10d7164
 ```
+
+## 如何让root能够登录
+
+```
+
+加入如下配置
+
+	[root@sdw3 ~]# vi /etc/securetty
+
+	pts/0
+	pts/1
+	pts/2
+	[root@sdw3 ~]# cd /etc/pam.d
+	[root@sdw3 pam.d]# cat login 
+	#%PAM-1.0
+	auth [user_unknown=ignore success=ok ignore=ignore default=bad] pam_securetty.so
+	auth       substack     system-auth
+	auth       include      postlogin
+	account    required     pam_nologin.so
+	account    include      system-auth
+	password   include      system-auth
+	# pam_selinux.so close should be the first session rule
+	session    required     pam_selinux.so close
+	session    required     pam_loginuid.so
+	session    optional     pam_console.so
+	# pam_selinux.so open should only be followed by sessions to be executed in the user context
+	session    required     pam_selinux.so open
+	session    required     pam_namespace.so
+	session    optional     pam_keyinit.so force revoke
+	session    include      system-auth
+	session    include      postlogin
+	-session   optional     pam_ck_connector.so
+	[root@sdw3 pam.d]# cat sshd 
+	#%PAM-1.0
+	auth       required     pam_sepermit.so
+	auth       substack     password-auth
+	auth       include      postlogin
+	# Used with polkit to reauthorize users in remote sessions
+	-auth      optional     pam_reauthorize.so prepare
+	account    required     pam_nologin.so
+	account    include      password-auth
+	password   include      password-auth
+	# pam_selinux.so close should be the first session rule
+	session    required     pam_selinux.so close
+	session    required     pam_loginuid.so
+	# pam_selinux.so open should only be followed by sessions to be executed in the user context
+	session    required     pam_selinux.so open env_params
+	session    required     pam_namespace.so
+	session    optional     pam_keyinit.so force revoke
+	session    include      password-auth
+	session    include      postlogin
+	# Used with polkit to reauthorize users in remote sessions
+	-session   optional     pam_reauthorize.so prepare
+	[root@sdw3 pam.d]# cat system-auth
+	#%PAM-1.0
+	# This file is auto-generated.
+	# User changes will be destroyed the next time authconfig is run.
+	auth        required      pam_env.so
+	auth        sufficient    pam_unix.so nullok try_first_pass
+	auth        requisite     pam_succeed_if.so uid <= 1000 quiet_success
+	auth        required      pam_deny.so
+	
+	account     required      pam_unix.so
+	account     sufficient    pam_localuser.so
+	account     sufficient    pam_succeed_if.so uid < 1000 quiet
+	account     required      pam_permit.so
+	
+	password    requisite     pam_pwquality.so try_first_pass local_users_only retry=3 authtok_type=
+	password    sufficient    pam_unix.so sha512 shadow nullok try_first_pass use_authtok
+	password    required      pam_deny.so
+	
+	session     optional      pam_keyinit.so revoke
+	session     required      pam_limits.so
+	-session     optional      pam_systemd.so
+	session     [success=1 default=ignore] pam_succeed_if.so service in crond quiet use_uid
+	session     required      pam_unix.so
+	[root@sdw3 pam.d]# 
+	修改==》
+	auth        requisite     pam_succeed_if.so uid >= 1000 quiet_success
+	为==》
+	auth        requisite     pam_succeed_if.so uid <= 1000 quiet_success
+
+```
