@@ -55,6 +55,13 @@ WantedBy=multi-user.target
 [root@iz2zegdp0r569zzor0c3quz ~]# systemctl daemon-reload
 [root@iz2zegdp0r569zzor0c3quz ~]# systemctl start docker
 ```
+
+## docker-compose 安装
+
+```
+curl -L https://github.com/docker/compose/releases/download/1.16.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+```
+
 ##dockerfile 制作镜像
 
 ```
