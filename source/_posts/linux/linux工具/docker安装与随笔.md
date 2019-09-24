@@ -16,6 +16,7 @@ date: 2019-09-17 02:00:00
 [root@iz2zegdp0r569zzor0c3quz ~]# tar -xzvf docker-19.03.0.tgz
 [root@iz2zegdp0r569zzor0c3quz ~]# cd docker
 [root@iz2zegdp0r569zzor0c3quz ~]# mv * /usr/bin/
+如果不是默认path目录，那么请用systemctl show-environment/set-environment
 [root@iz2zegdp0r569zzor0c3quz ~]# vi .bash_profile
 [root@iz2zegdp0r569zzor0c3quz ~]# source .bash_profile
 PATH=$PATH:$HOME/bin
