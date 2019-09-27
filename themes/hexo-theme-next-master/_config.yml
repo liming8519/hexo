@@ -154,7 +154,7 @@ menu:
   #sitemap: /sitemap.xml || sitemap
   #commonweal: /404/ || heartbeat
   book: /book || book
-
+  md: /anysource || anysource
 # Enable/Disable menu icons / item badges.
 menu_settings:
   icons: true
