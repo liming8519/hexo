@@ -20,7 +20,7 @@ date: 2019-09-17 02:00:00
 [root@iz2zegdp0r569zzor0c3quz ~]# vi .bash_profile
 [root@iz2zegdp0r569zzor0c3quz ~]# source .bash_profile
 PATH=$PATH:$HOME/bin
-[root@iz2zegdp0r569zzor0c3quz ~]# vi /etc/systemd/system/docker.service
+[root@iz2zegdp0r569zzor0c3quz ~]# vi /usr/lib/systemd/system/docker.service
 [Unit]
 Description=Docker Application Container Engine
 Documentation=https://docs.docker.com
@@ -28,10 +28,11 @@ After=network-online.target firewalld.service
 Wants=network-online.target
 [Service]
 Type=notify
+Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/local/docker
 # the default is not to use systemd for cgroups because the delegate issues still
 # exists and systemd currently does not support the cgroup feature set required
 # for containers run by docker
-ExecStart=/usr/bin/dockerd
+ExecStart=/usr/local/docker/dockerd
 ExecReload=/bin/kill -s HUP $MAINPID
 # Having non-zero Limit*s causes performance problems due to accounting overhead
 # in the kernel. We recommend using cgroups to do container-local accounting.
