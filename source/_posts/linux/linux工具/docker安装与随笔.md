@@ -64,7 +64,7 @@ curl -L https://github.com/docker/compose/releases/download/1.16.1/docker-compos
 chmod +x /usr/local/bin/docker-compose
 ```
 
-##dockerfile 制作镜像
+## dockerfile 制作镜像
 
 ```
 [root@iz2zegdp0r569zzor0c3quz mk]# pwd
