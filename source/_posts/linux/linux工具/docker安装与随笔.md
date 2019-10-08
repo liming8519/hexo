@@ -1,7 +1,7 @@
 ---
 title:  docker安装与随笔
 tags:
-- docker
+- 虚拟化
 categories: 
 - linux 
 date: 2019-09-17 02:00:00
@@ -113,34 +113,6 @@ Dockerfile  my.sh  mysql-5.7.27-linux-glibc2.12-x86_64.tar.gz
 [root@iz2zegdp0r569zzor0c3quz mk]# docker build -t mysql .
 [root@iz2zegdp0r569zzor0c3quz mk]# docker run -t -i -v /data:/data -p 3307:3306 --name db mysql
 [root@iz2zegdp0r569zzor0c3quz mk]# docker run --link db:db -t -i centos (使用mysql -u*** -p*** -hdb访问上一个容器的mysql)
-```
-
-## etcd安装
-  从github上下载etcd发布的二进制文件。
-```
-[root@iz2zegdp0r569zzor0c3quz ~]# vi /usr/lib/systemd/system/etcd.service
-[Unit]
-Description=Etcd Server
-After=network.target
-
-[Service]
-Type=simple
-WorkingDirectory=/var/lib/etcd/
-EnvironmentFile=/etc/etcd/etcd.conf
-ExecStart=/usr/bin/etcd
-[Install]
-WantedBy=multi-user.target
-
-[root@iz2zegdp0r569zzor0c3quz ~]#mkdir /var/lib/etcd/
-[root@iz2zegdp0r569zzor0c3quz ~]#mkdir /etc/etcd/
-[root@iz2zegdp0r569zzor0c3quz ~]#touch /etc/etcd/etcd.conf
-[root@iz2zegdp0r569zzor0c3quz ~]#tar -xzvf etcd-v3.4.0-linux-amd64.tar.gz 
-[root@iz2zegdp0r569zzor0c3quz ~]#cd etcd-v3.4.0-linux-amd64
-[root@iz2zegdp0r569zzor0c3quz ~]#mv etcd etcdctl /usr/bin
-[root@iz2zegdp0r569zzor0c3quz ~]# systemctl daemon-reload
-[root@iz2zegdp0r569zzor0c3quz ~]# systemctl enable etcd
-[root@iz2zegdp0r569zzor0c3quz ~]# systemctl start etcd
-[root@iz2zegdp0r569zzor0c3quz ~]# systemctl status etcd
 ```
 
 
