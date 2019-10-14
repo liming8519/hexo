@@ -136,7 +136,12 @@ option参数解释：
 - -m 同时输出java和本地堆栈(混合模式)
 - -l 额外显示锁信息
 
-```jstack -l 11666 | more```
+```
+
+jstack -l 11666 | more
+
+
+```
 输出信息：
 Full thread dump Java HotSpot(TM) 64-Bit Server VM (25.25-b02 mixed mode):
 "Attach Listener" #25525 daemon prio=9 os_prio=0 tid=0x00007fd374002000 nid=0x70e8 waiting on condition [0x0000000000000000]
@@ -162,6 +167,7 @@ option参数解释：
     　　　　　　format=b 二进制格式
     　　　　　　file=<file> 转储文件到 <file>
 - -F 强制选项
+
 ```
 jmap -dump:live,format=b,file=dump.hprof 11666　
 jmap -finalizerinfo 11666
@@ -175,3 +181,7 @@ num     #instances         #bytes  class name
 4:         15935         497100  java.util.concurrent.ConcurrentHashMap$Node
 5:         28561         436016  java.lang.Object
 ```
+
+## jvm有意义的图片
+
+![](https://raw.githubusercontent.com/zixujing/book1.github.io/master/image/ca3b35bdcf369e892ca283049964acc2.jpeg)
