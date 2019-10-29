@@ -118,3 +118,23 @@ Dockerfile  my.sh  mysql-5.7.27-linux-glibc2.12-x86_64.tar.gz
 
 
 
+
+## harbor 安装
+
+```
+下载离线安装包
+[root@sdw3 ~]# wget https://storage.googleapis.com/harbor-releases/release-1.9.0/harbor-offline-installer-v1.9.1.tgz
+[root@sdw3 ~]# tar -xvf harbor-offline-installer-v1.9.1.tgz ; cd harbor   
+[root@sdw3 harbor]# ./prepare 
+[root@sdw3 harbor]# vi harbor.yml 
+hostname: 192.168.106.237
+docker-compose需要1.18以上的版本
+curl -L https://github.com/docker/compose/releases/download/1.24.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/docker/docker-compose
+[root@sdw3 harbor]# ./install.sh 
+剩下使用docker-compose控制
+docker-compose start
+
+
+docker-compose stop
+
+```
