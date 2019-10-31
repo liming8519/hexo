@@ -34,7 +34,7 @@ Wants=network-online.target
 Type=notify
 WorkingDirectory=/var/lib/etcd/
 EnvironmentFile=-/etc/etcd/etcd.conf
-User=etcd
+User=root
 # set GOMAXPROCS to number of processors
 ExecStart=/usr/bin/etcd
 Restart=on-failure
@@ -116,7 +116,7 @@ Wants=network-online.target
 Type=notify
 WorkingDirectory=/var/lib/etcd/
 EnvironmentFile=-/etc/etcd/etcd.conf
-User=etcd
+User=root
 # set GOMAXPROCS to number of processors
 ExecStart=/usr/bin/etcd
 Restart=on-failure
