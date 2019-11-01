@@ -89,6 +89,7 @@ KUBE_SCHEDULER_ARGS="--master=http://127.0.0.1:9090 --logtostderr=false --log-di
 
 ```
 KUBELET
+swapoff -a禁止使用swap
 
 ##创建kubletconfig
 kubectl config set-cluster kubernetes   --server=http://127.0.0.1:9090  --kubeconfig=bootstrap.kubeconfig
