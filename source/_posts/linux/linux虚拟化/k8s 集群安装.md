@@ -245,6 +245,25 @@ failed pulling image "k8s.gcr.io/pause:3.1": Error response from daemon: Get htt
 
 docker tag docker.io/mirrorgooglecontainers/pause:3.1 k8s.gcr.io/pause:3.1
 docker pull mirrorgooglecontainers/pause:3.1
+
+错误解决
+Error creating: No API token found for service account "default", retry after the token is automatically created and added to the service account
+
+
+1、首先生成密钥：
+openssl genrsa -out /root/fk/conf/serviceaccount.key 2048
+
+2、编辑/root/fk/conf/apiserver
+添加以下内容：
+KUBE_API_ARGS="--service-account-key-file=/root/fk/conf/serviceaccount.key"
+
+3、再编辑/root/fk/conf/controller-manager
+添加以下内容：
+KUBE_CONTROLLER_MANAGER_ARGS="--service-account-private-key-file=/root/fk/conf/serviceaccount.key"
+
+最后无论是哪种解决方式都需要再重启kubernetes服务：
+systemctl restart etcd kube-apiserver kube-controller-manager kube-scheduler
+
 ```
 
 
