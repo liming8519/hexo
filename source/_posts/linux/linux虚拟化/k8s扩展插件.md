@@ -300,6 +300,227 @@ kube-system   metrics-server-6f66574f8d-bx547   1/1     Running   0          9s
 [root@managementa kube-metrics-server]# kubectl get pods --all-namespaces
 NAMESPACE     NAME                              READY   STATUS    RESTARTS   AGE
 kube-system   metrics-server-6f66574f8d-bx547   1/1     Running   0          11s
+证书备份，只罗列内容：
+[root@managementa pki]# ls
+ca-config.json  ca.csr  ca-csr.json  ca-key.pem  ca.pem  kubernetes.csr  kubernetes-csr.json  kubernetes-key.pem  kubernetes.pem
+[root@managementa pki]# cat ca-key.pem 
+-----BEGIN RSA PRIVATE KEY-----
+MIIEowIBAAKCAQEA7FO8JNTypRkTj3eekQhXhikBGEu5ev6TW8KI700MuBaK0RmX
+5vibkJ4vuUuvrL0QPoTPnlLs7f8XytMqtaEyQUsrv0R2BvC3Y+HckqNNaqtWCCUL
+5KLs2c0FXeTvuX3PIx76Z0Si7Y5NnNusmkUc7zoQRXCwm13WtXTlj6RFImvpxehy
+lsxOMaDjaT+U8I/hvvCaTC0rkB1eFyXH7Fw6rv2oui5rm67MBurjHyXjGMHX1WIE
+JzF/NH5KKq0tD4bUyfQwLA8M9F9MvSHRvl7nE0moGsAY23r5D778sX2EzMTXHUNk
+cO4bE9rqirI2UrBNjNlQHOBZ+Gu7hQMNYJdDPQIDAQABAoIBACfYrn5fUVI4+i1U
+c+3sRCWgwEiCbBGq3tm34TLIAP8A/gLnl88f18r4gP9zHXm4nwaLih4dyUkPm8lc
+9XSOa1TLAeNL/cKJz8INkQ1Ab4suvGC/LlQsjFbk1KTSNwFFjylSzdGfpwD632c1
+OtMAGDLVzWyH5Z8soUkTHqmrfuSgjmYNsGOCM8PK2eF1knxv698mPJY0XU3X5yG2
+e1Jl77MT8cJDbO+XuqBvmOWYJ1S55lsTRG58gHHBmhk6il/7i39SgGkHSFavNu5A
+lCpkms9id0W5QZ7NethowgMeCTZZent4uMrkCJcm463/kHsGkT3Y9ea+iUNckHOS
+DZ5CgEECgYEA9szT1N42r/kACo2NCWE3MEEDp80xTO9YBJs/6v1C/Z0iBbLDDvvW
+HejljffUgh9nz0+OG5h9I31UKI6ojRxgIyST6yG2koWJg8EtUGwNqodixoeni07h
+Ql04Tcy2QBTeurMafBouafTcKTVEHHp5TPCAzwz59z6jbv3RDfHZBVUCgYEA9SL3
+Fy7o8ebs+5oldPLFhtbLFSTu6ELGn9REdG2z2wxOV68ICdjGyjE+njIupw7qS4AX
+Smwd+uqApE0AmlTHz+3MJLWnE6m8rjcLG1zFapqDnd//3yS9E0bmQx8ov9IzeI18
+QgF5OoXS/vBAlsvF2LTx4NfTHDTaDKzyTmFBxkkCgYBZUFTUszotQro+F23T2Cel
+wdF1128g/Xjn6dseylqE92mJkGDAumiJWHBCiU6RbJYf0xWFbRDUWBWtu7rJnlw4
+O5OAQyoUKllSogUpFoF3lhkr6Ym7g2dHof6vQQcvd54HCKvr/3mOhLtr+kfU2omt
+S1gCFhsb28I/d4FBP6WfJQKBgQDcOa5cQIN8FyceHmy6NQRpz/wgoc6UELGakztw
+kcG778FOGuwQ1JQ6v6TuwEyTPt4UOB40eQ8yBYzOjnMVM0dTMOJutFdGXf4pUUAE
+NAMTc378zWl1Ee9fKxnggVS9h90/13QjZGmBvwpAiJyuHKFAv8ZxZdO+Cmk+a/0/
+lzZdKQKBgCSLHELINvO+uUOXkoUXYYkrYJoH9uUJRFi8Gy5hdOpnMFYGcBiSbU2v
+JUACtXBXN1ytmU5nYslKZpCfvzuD0xsfi//z/dDZDYDx8tbEldDJi/svPZu352Yn
+rVnz661/xhUj5W3qCnlKE6kyleSStzZsVTTmtSdWXJUAw7XFEGFm
+-----END RSA PRIVATE KEY-----
+[root@managementa pki]# cat ca.pem
+-----BEGIN CERTIFICATE-----
+MIIDvjCCAqagAwIBAgIUfSG5ElG6kCDKiUxrkpEPDYyAa0cwDQYJKoZIhvcNAQEL
+BQAwZTELMAkGA1UEBhMCQ04xEDAOBgNVBAgTB0JlaUppbmcxEDAOBgNVBAcTB0Jl
+aUppbmcxDDAKBgNVBAoTA2s4czEPMA0GA1UECxMGU3lzdGVtMRMwEQYDVQQDEwpr
+dWJlcm5ldGVzMB4XDTE5MTExMzA3MTkwMFoXDTI0MTExMTA3MTkwMFowZTELMAkG
+A1UEBhMCQ04xEDAOBgNVBAgTB0JlaUppbmcxEDAOBgNVBAcTB0JlaUppbmcxDDAK
+BgNVBAoTA2s4czEPMA0GA1UECxMGU3lzdGVtMRMwEQYDVQQDEwprdWJlcm5ldGVz
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA7FO8JNTypRkTj3eekQhX
+hikBGEu5ev6TW8KI700MuBaK0RmX5vibkJ4vuUuvrL0QPoTPnlLs7f8XytMqtaEy
+QUsrv0R2BvC3Y+HckqNNaqtWCCUL5KLs2c0FXeTvuX3PIx76Z0Si7Y5NnNusmkUc
+7zoQRXCwm13WtXTlj6RFImvpxehylsxOMaDjaT+U8I/hvvCaTC0rkB1eFyXH7Fw6
+rv2oui5rm67MBurjHyXjGMHX1WIEJzF/NH5KKq0tD4bUyfQwLA8M9F9MvSHRvl7n
+E0moGsAY23r5D778sX2EzMTXHUNkcO4bE9rqirI2UrBNjNlQHOBZ+Gu7hQMNYJdD
+PQIDAQABo2YwZDAOBgNVHQ8BAf8EBAMCAQYwEgYDVR0TAQH/BAgwBgEB/wIBAjAd
+BgNVHQ4EFgQUwDWSzTl7CZ7y4bMAGSeLLrfUmzYwHwYDVR0jBBgwFoAUwDWSzTl7
+CZ7y4bMAGSeLLrfUmzYwDQYJKoZIhvcNAQELBQADggEBAHeAY4J5N+s4CKO1eR2/
+e7MyPgbqDQ/pGB7LImf9cgfxd/Ufgr4RODXXDb+cHOYr+whzMfFWszzACqFTvjBj
+0ZAUIAVOpBvBhNYFlrbEyupRJewb9cxAhXSLLGPr3EyzNtOOGdV6c6wih99sng+Z
+I0SjwutkUpap5QfUo+/Up3QmpPixqUPa99U6Pi2u9Kr2qOk8pVv2uAHpF3Bu4Roi
+jp04jD0FKLDUGuwf9QpMVW4BGvxmwqIXzTnY65ksz4ckdKamB3pMXxJ6iCRArnOn
+anAbX024gNoTPcAbuP0TSNJjo4p1vg3agNQBIU88+fPQUzx+9tOkTiBtziwyhzcu
+A7g=
+-----END CERTIFICATE-----
+[root@managementa pki]# cat ca.csr
+-----BEGIN CERTIFICATE REQUEST-----
+MIICqjCCAZICAQAwZTELMAkGA1UEBhMCQ04xEDAOBgNVBAgTB0JlaUppbmcxEDAO
+BgNVBAcTB0JlaUppbmcxDDAKBgNVBAoTA2s4czEPMA0GA1UECxMGU3lzdGVtMRMw
+EQYDVQQDEwprdWJlcm5ldGVzMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEA7FO8JNTypRkTj3eekQhXhikBGEu5ev6TW8KI700MuBaK0RmX5vibkJ4vuUuv
+rL0QPoTPnlLs7f8XytMqtaEyQUsrv0R2BvC3Y+HckqNNaqtWCCUL5KLs2c0FXeTv
+uX3PIx76Z0Si7Y5NnNusmkUc7zoQRXCwm13WtXTlj6RFImvpxehylsxOMaDjaT+U
+8I/hvvCaTC0rkB1eFyXH7Fw6rv2oui5rm67MBurjHyXjGMHX1WIEJzF/NH5KKq0t
+D4bUyfQwLA8M9F9MvSHRvl7nE0moGsAY23r5D778sX2EzMTXHUNkcO4bE9rqirI2
+UrBNjNlQHOBZ+Gu7hQMNYJdDPQIDAQABoAAwDQYJKoZIhvcNAQELBQADggEBAHJQ
+QJlDBiXnuZ7H/yTBSRu6LNNP1uuTriO514lS3DBt8NydHYz8B8XMufgzdDdHWWz9
+sJXL5iw4MYOFXc9QhCBDLxFqNdCduMvn+cdVkAAAA1uk0G7R4VADV+w1ikB5qCFV
+EgjCQsBajITkfqLDxarwZWc/nlRqsiXulWVRjKTmaXGULg0PSslZECXzxb19tvp4
+qPEBlqZDXnfVNB0KSL5lJvbiyqeJnIdveOy+qer5aYvjtPbpk9quE2ufTuQCsBGx
+FyZasR7Dk6s4dpW3cjRqsTHryy2xeZn3fM4uGDzriyHySW2hOAErMW3dHngndM7E
+SqXAYR3oJKSjnGskp0E=
+-----END CERTIFICATE REQUEST-----
+[root@managementa pki]# cat ca-csr.json
+{
+  "CN": "kubernetes",
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "CN",
+      "ST": "BeiJing",
+      "L": "BeiJing",
+      "O": "k8s",
+      "OU": "System"
+    }
+  ]
+}
+[root@managementa pki]# cat ca-config.json
+{
+  "signing": {
+    "default": {
+      "expiry": "87600h"
+    },
+    "profiles": {
+      "kubernetes": {
+        "usages": [
+            "signing",
+            "key encipherment",
+            "server auth",
+            "client auth"
+        ],
+        "expiry": "87600h"
+      }
+    }
+  }
+}
+[root@managementa pki]# cat kubernetes-csr.json
+{
+    "CN": "kubernetes",
+    "hosts": [
+      "127.0.0.1",
+      "192.168.106.117",
+      "192.168.106.237",
+      "192.168.106.118",
+      "192.168.106.119",
+      "192.168.106.128",
+      "192.168.106.129",
+      "192.168.106.103",
+      "169.169.0.1",
+      "kubernetes",
+      "kubernetes.default",
+      "kubernetes.default.svc",
+      "kubernetes.default.svc.cluster",
+      "kubernetes.default.svc.cluster.local"
+    ],
+    "key": {
+        "algo": "rsa",
+        "size": 2048
+    },
+    "names": [
+        {
+            "C": "CN",
+            "ST": "BeiJing",
+            "L": "BeiJing",
+            "O": "k8s",
+            "OU": "System"
+        }
+    ]
+}
+[root@managementa pki]# cat kubernetes.csr
+-----BEGIN CERTIFICATE REQUEST-----
+MIIDgTCCAmkCAQAwZTELMAkGA1UEBhMCQ04xEDAOBgNVBAgTB0JlaUppbmcxEDAO
+BgNVBAcTB0JlaUppbmcxDDAKBgNVBAoTA2s4czEPMA0GA1UECxMGU3lzdGVtMRMw
+EQYDVQQDEwprdWJlcm5ldGVzMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEA2Yhv0Je+Yxs9rqGkIBd3Jy1loq9bnHMgA8nVpu//QVR4n8Fqq3Lvt3/XnJg3
+6u/l0UufVQD/hd+MWKL/bqnJMYb5YGBZCd1P5VOE3YyKmIgiea79y1XUjl5Bvn8i
+5ReQINT3RIrXqdw0Qm/bSSqvopTC6VPSN8Ax6eI0Lnr1sLdTH6zA1UsUtKCHmM0W
+h92PF158dihjy/YrtjMFe91P9dOJocbwwARzxJlRO21OSJC4P/zkpDWBtd8Oxjs5
+UIkjXI6QDxx/cStGP2lJAm39Wgu2gg835gglhD8oeVnwfbRl52BBdKmH2UL/Nb/o
+VkUVHK1W6bosFqE3SLDHmhPc9QIDAQABoIHWMIHTBgkqhkiG9w0BCQ4xgcUwgcIw
+gb8GA1UdEQSBtzCBtIIKa3ViZXJuZXRlc4ISa3ViZXJuZXRlcy5kZWZhdWx0ghZr
+dWJlcm5ldGVzLmRlZmF1bHQuc3Zjgh5rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmNs
+dXN0ZXKCJGt1YmVybmV0ZXMuZGVmYXVsdC5zdmMuY2x1c3Rlci5sb2NhbIcEfwAA
+AYcEwKhqdYcEwKhq7YcEwKhqdocEwKhqd4cEwKhqgIcEwKhqgYcEwKhqZ4cEqakA
+ATANBgkqhkiG9w0BAQsFAAOCAQEAUT/KK1VXLRBBy4tA6jIGb5T8m2Qmlhsh8LMI
+0KjwplN0BR0t7lHvd7BHokR/dBgEZRTX3BowxWUgmZCH16q9BFwv1MSEs/wcCn6A
+/TCPfA5skayhkL2FPZSQNoxHmGdjimYMGMcmdh6rrXBwzQZdfLHiIzmC1Q0XWIxz
+Z5v6g2nV52NM9Ho3AMD43t1sl2BXya2CkrpjzKm3y7uAkMYzukxnXEDHuXcduROh
+ngJX7dbWRZhd3OmdeuZRu+JbDMlJcY5kZHrErO5DaYRpdc2lcmfOJALTm40X5W/1
+w3j63RnKtNsboBTSeqjyKYfbryBJQ5LYTu83LWoDckVWQa66YA==
+-----END CERTIFICATE REQUEST-----
+[root@managementa pki]# cat  kubernetes-key.pem
+-----BEGIN RSA PRIVATE KEY-----
+MIIEpQIBAAKCAQEA2Yhv0Je+Yxs9rqGkIBd3Jy1loq9bnHMgA8nVpu//QVR4n8Fq
+q3Lvt3/XnJg36u/l0UufVQD/hd+MWKL/bqnJMYb5YGBZCd1P5VOE3YyKmIgiea79
+y1XUjl5Bvn8i5ReQINT3RIrXqdw0Qm/bSSqvopTC6VPSN8Ax6eI0Lnr1sLdTH6zA
+1UsUtKCHmM0Wh92PF158dihjy/YrtjMFe91P9dOJocbwwARzxJlRO21OSJC4P/zk
+pDWBtd8Oxjs5UIkjXI6QDxx/cStGP2lJAm39Wgu2gg835gglhD8oeVnwfbRl52BB
+dKmH2UL/Nb/oVkUVHK1W6bosFqE3SLDHmhPc9QIDAQABAoIBAQCpNvzj4mZzaald
+wteNLzO9Ag9hsc8tsFBjIgpUxbRl+XOrsiVsIQhgUc5DPhWhZ+P6Hz1ePlyGoxLl
+kEXqq6CaKkiqs8gPaFzSI1njjYPyi1NmHL3IAohKBwBVU0ittNqk74U5iFejBmyQ
+kbqe+9mMOvQz1MReId+x9Ahrb7LXNxP9OtbuM5EUgMTFlsfrrgtNNJN0lg/BbmJn
+mmPBe3MrEBr1EW5I/ZfWXdQcjqILxZEJZ9TfnB77Fj2gmNrIFxBKPNvn/Kl0ek0f
+xFHfIU934aLCg/Ywmts+9BcbtKtBnHHOd6gnCB5dKgwl8/qKJfafCPhcraij8GKr
+WmB3tXCxAoGBAP6G0BIJW91OY7tAgfRwuplYzFfV+Tx0LTCz5Gmh3DawWSoex6Hr
+0gVo8Pm9wcEOSwXBUMuuMRxgFGWFZEazbDM4IuidVLcJIR2czmrU3gf0t+D1mkOf
+N5+lMMOHE35cFcO6hHFnf/n7kkAN0RHxiO9+aVOlPe1diWdho0kkLzYjAoGBANrK
+zW+9j2iHtks9BL4/wuRp6F7KMndZZr07z2fJ2+AiIThMHpsLVaNi1xH10AkRVpsZ
+c/cEmEc/86I1dVTUvis/7tjaPxaYwA1jQ/yC1TP/tI57h8/MCrGR7ZplpuzymV+x
+7E98TGq/qMky+tOXP9580vMwsK8JoktLRzPuCjYHAoGBALfY1O5SSELAXpVg8P2J
+d59QXrmLWy3plMK7Dd+nBJOUKbOc7AHvfpJdzMH36L3z/wi3LA8TUXH3jIQQJ/BR
+pXQRtlVjX0+ejob/PrI38/C3OSKLBNSXauwru99f8BqzlRz92rC3W99LccZGtJ9L
+Yefr3VSH5QVRLPC5u+IW+usVAoGBAMWL2SOsDyD9cB3M0UyJu4mLCnETta9HPFld
++G2ot+tORZpUOEobWM51/uRLgvO9AOp3d9ov/uJOHsd15yOaFr5sMlb/73iSoM01
+tHv5EVGq7ja72KtJetpLfTIr2CUXAl6CAnDeNQ0pUdegPRLw/I0BPWKwssbINw4u
+wPJlWjjfAoGAVaDYwBeDHLbrzHYEJ8FejDT8h6UgeOL7sw3ua+OQjj5gM+/UlQZh
+fpSIL7h93Zc3f7LBcDxo60THWDotm6TfLqu1RMco49FpxN6/3naqDjwL9t73b2uz
+XdyCq5lI6PHQzy7PlVLP/TWzZW1YT4DpkRAc7S1zyGQxImW1UzZ4oO4=
+-----END RSA PRIVATE KEY-----
+[root@managementa pki]# cat  kubernetes.pem
+-----BEGIN CERTIFICATE-----
+MIIEnTCCA4WgAwIBAgIUXkAeoDoFReJbakmRKjvWJji/W+0wDQYJKoZIhvcNAQEL
+BQAwZTELMAkGA1UEBhMCQ04xEDAOBgNVBAgTB0JlaUppbmcxEDAOBgNVBAcTB0Jl
+aUppbmcxDDAKBgNVBAoTA2s4czEPMA0GA1UECxMGU3lzdGVtMRMwEQYDVQQDEwpr
+dWJlcm5ldGVzMB4XDTE5MTExMzA3MjUwMFoXDTI5MTExMDA3MjUwMFowZTELMAkG
+A1UEBhMCQ04xEDAOBgNVBAgTB0JlaUppbmcxEDAOBgNVBAcTB0JlaUppbmcxDDAK
+BgNVBAoTA2s4czEPMA0GA1UECxMGU3lzdGVtMRMwEQYDVQQDEwprdWJlcm5ldGVz
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2Yhv0Je+Yxs9rqGkIBd3
+Jy1loq9bnHMgA8nVpu//QVR4n8Fqq3Lvt3/XnJg36u/l0UufVQD/hd+MWKL/bqnJ
+MYb5YGBZCd1P5VOE3YyKmIgiea79y1XUjl5Bvn8i5ReQINT3RIrXqdw0Qm/bSSqv
+opTC6VPSN8Ax6eI0Lnr1sLdTH6zA1UsUtKCHmM0Wh92PF158dihjy/YrtjMFe91P
+9dOJocbwwARzxJlRO21OSJC4P/zkpDWBtd8Oxjs5UIkjXI6QDxx/cStGP2lJAm39
+Wgu2gg835gglhD8oeVnwfbRl52BBdKmH2UL/Nb/oVkUVHK1W6bosFqE3SLDHmhPc
+9QIDAQABo4IBQzCCAT8wDgYDVR0PAQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUF
+BwMBBggrBgEFBQcDAjAMBgNVHRMBAf8EAjAAMB0GA1UdDgQWBBTr2g9b5ihjJg1q
+5D8XCjX2yE9I5jAfBgNVHSMEGDAWgBTANZLNOXsJnvLhswAZJ4sut9SbNjCBvwYD
+VR0RBIG3MIG0ggprdWJlcm5ldGVzghJrdWJlcm5ldGVzLmRlZmF1bHSCFmt1YmVy
+bmV0ZXMuZGVmYXVsdC5zdmOCHmt1YmVybmV0ZXMuZGVmYXVsdC5zdmMuY2x1c3Rl
+coIka3ViZXJuZXRlcy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2FshwR/AAABhwTA
+qGp1hwTAqGrthwTAqGp2hwTAqGp3hwTAqGqAhwTAqGqBhwTAqGpnhwSpqQABMA0G
+CSqGSIb3DQEBCwUAA4IBAQBibcKxXIvEu1RurTxjaaadTkO5lWU+6L2zar4KepdV
+XQXiW+q1HvwVJl3ZM86I8xF8mp6nkH6SbUHx/tY8VT0WI7jC1wohUleli1AtnljR
+BU2Ngq7v6kw/aH4CuVYryVU4YmLTGAKX8ZCt36/0uZKDq94q3E8EijUJXSi8Ek/O
+CCldw/bJ5tCCo1lcfJiioRikbcFXo4zzt1hiILADxmqfjMv/75gTmyqygb5zkBfd
+4YQG+XBkTZRvGKPEQjQzlLe8Pt0c22EjAoD4HamF95+eblEiTlmavCN4uHt3bSb9
+ud4AtKd8+HhpC5m5fvvTrxgsCDDc671uDaXbiyb09X2w
+-----END CERTIFICATE-----
+[root@managementa pki]# 
 ```
 
 ### k8s DNS安装
@@ -1104,6 +1325,116 @@ spec:
         volumeMounts:
         - name: tmp-dir
           mountPath: /tmp
+          
+下面的文件是不用修改的，只罗列内容
+[root@managementa kube-metrics-server]# cat aggregated-metrics-reader.yaml 
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: system:aggregated-metrics-reader
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-view: "true"
+    rbac.authorization.k8s.io/aggregate-to-edit: "true"
+    rbac.authorization.k8s.io/aggregate-to-admin: "true"
+rules:
+- apiGroups: ["metrics.k8s.io"]
+  resources: ["pods", "nodes"]
+  verbs: ["get", "list", "watch"]
+  
+[root@managementa kube-metrics-server]# cat auth-reader.yaml 
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: metrics-server-auth-reader
+  namespace: kube-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: extension-apiserver-authentication-reader
+subjects:
+- kind: ServiceAccount
+  name: metrics-server
+  namespace: kube-system
+[root@managementa kube-metrics-server]# cat resource-reader.yaml
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: system:metrics-server
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - nodes
+  - nodes/stats
+  - namespaces
+  verbs:
+  - get
+  - list
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: system:metrics-server
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:metrics-server
+subjects:
+- kind: ServiceAccount
+  name: metrics-server
+  namespace: kube-system
+[root@managementa kube-metrics-server]# cat auth-delegator.yaml 
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: metrics-server:system:auth-delegator
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:auth-delegator
+subjects:
+- kind: ServiceAccount
+  name: metrics-server
+  namespace: kube-system
+[root@managementa kube-metrics-server]# cat metrics-apiservice.yaml
+---
+apiVersion: apiregistration.k8s.io/v1beta1
+kind: APIService
+metadata:
+  name: v1beta1.metrics.k8s.io
+spec:
+  service:
+    name: metrics-server
+    namespace: kube-system
+  group: metrics.k8s.io
+  version: v1beta1
+  insecureSkipTLSVerify: true
+  groupPriorityMinimum: 100
+  versionPriority: 100
+[root@managementa kube-metrics-server]# cat metrics-server-service.yaml
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: metrics-server
+  namespace: kube-system
+  labels:
+    kubernetes.io/name: "Metrics-server"
+    kubernetes.io/cluster-service: "true"
+spec:
+  selector:
+    k8s-app: metrics-server
+  ports:
+  - port: 443
+    protocol: TCP
+    targetPort: main-port
+[root@managementa kube-metrics-server]# 
 [root@managementa kube-metrics-server]# kubectl apply -f .
 
 
@@ -1457,7 +1788,7 @@ clusterrolebinding.rbac.authorization.k8s.io/nginx-ingress-clusterrole-nisa-bind
 deployment.apps/nginx-ingress-controller created
 
 ```
-### 错误解决
+#### 错误解决
 
 * Nov  8 12:49:33 managementa kube-controller-manager: E1108 12:49:33.842331   30295 replica_set.go:450] Sync "ingress-nginx/nginx-ingress-controller-579bdfc57f" failed with pods "nginx-ingress-controller-579bdfc57f-x9v54" is forbidden: SecurityContext.RunAsUser is forbidden
 ```
@@ -1621,7 +1952,7 @@ deployment.apps/nginx-ingress-controller created
 ```
 
 
-### ingress服务安装
+#### ingress服务安装
 
 ```
 [root@managementa workdir]# vi ingress-nginx.yaml
@@ -1719,3 +2050,41 @@ spec:
 [root@managementa ingress]# 
 
 ```
+
+### k8s测试环境配置
+
+```
+[root@managementa fk]# ls
+bin  conf  dns-test  ingress  kube-dashboard  kube-dns  kube-metrics-server  pki
+[root@managementa fk]# cd conf
+[root@managementa conf]# ls
+apiserver  bootstrap.kubeconfig  controller-manager  kubelet  proxy  scheduler
+[root@managementa conf]# cat kubelet 
+KUBELET_ARGS="--kubeconfig=/root/fk/conf/bootstrap.kubeconfig --cluster-dns=169.169.169.169 --cluster-domain=cluster.local --hostname-override=192.168.106.118 --logtostderr=false --log-dir=/var/log/kubernetes --v=2"
+
+[root@managementa conf]# cat proxy 
+KUBE_PROXY_ARGS="--master=http://192.168.106.117:9090 --hostname-override=192.168.106.118 --logtostderr=false --log-dir=/var/log/kubernetes --v=2"
+[root@managementa conf]# cat scheduler
+KUBE_SCHEDULER_ARGS="--master=http://127.0.0.1:9090 --logtostderr=false --log-dir=/var/log/kubernetes --v=2"
+[root@managementa conf]# cat bootstrap.kubeconfig
+apiVersion: v1
+clusters:
+- cluster:
+    server: http://192.168.106.117:9090
+  name: kubernetes
+contexts:
+- context:
+    cluster: kubernetes
+    user: kubelet-bootstrap
+  name: default
+current-context: default
+kind: Config
+preferences: {}
+users: []
+[root@managementa conf]# cat controller-manager 
+KUBE_CONTROLLER_MANAGER_ARGS="--master=http://127.0.0.1:9090 --logtostderr=false --log-dir=/var/log/kubernetes --v=2 --service-account-private-key-file=/root/fk/pki/kubernetes-key.pem --root-ca-file=/root/fk/pki/ca.pem" 
+[root@managementa conf]# cat apiserver 
+KUBE_API_ARGS="--enable-aggregator-routing=true --authorization-mode=RBAC --etcd-servers=http://192.168.106.237:2379 --insecure-bind-address=0.0.0.0 --insecure-port=9090 --service-cluster-ip-range=169.169.0.0/16 --service-node-port-range=1-65535 --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,ResourceQuota --logtostderr=false --log-dir=/var/log/kubernetes --v=2 --client-ca-file=/root/fk/pki/ca.pem --tls-cert-file=/root/fk/pki/kubernetes.pem --tls-private-key-file=/root/fk/pki/kubernetes-key.pem --requestheader-client-ca-file=/root/fk/pki/ca.pem --proxy-client-cert-file=/root/fk/pki/kubernetes.pem --proxy-client-key-file=/root/fk/pki/kubernetes-key.pem --requestheader-allowed-names= --requestheader-extra-headers-prefix=X-Remote-Extra- --requestheader-group-headers=X-Remote-Group --requestheader-username-headers=X-Remote-User"
+```
+
+
