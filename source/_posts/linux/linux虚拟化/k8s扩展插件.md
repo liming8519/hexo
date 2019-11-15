@@ -2084,7 +2084,39 @@ users: []
 [root@managementa conf]# cat controller-manager 
 KUBE_CONTROLLER_MANAGER_ARGS="--master=http://127.0.0.1:9090 --logtostderr=false --log-dir=/var/log/kubernetes --v=2 --service-account-private-key-file=/root/fk/pki/kubernetes-key.pem --root-ca-file=/root/fk/pki/ca.pem" 
 [root@managementa conf]# cat apiserver 
-KUBE_API_ARGS="--enable-aggregator-routing=true --authorization-mode=RBAC --etcd-servers=http://192.168.106.237:2379 --insecure-bind-address=0.0.0.0 --insecure-port=9090 --service-cluster-ip-range=169.169.0.0/16 --service-node-port-range=1-65535 --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,ResourceQuota --logtostderr=false --log-dir=/var/log/kubernetes --v=2 --client-ca-file=/root/fk/pki/ca.pem --tls-cert-file=/root/fk/pki/kubernetes.pem --tls-private-key-file=/root/fk/pki/kubernetes-key.pem --requestheader-client-ca-file=/root/fk/pki/ca.pem --proxy-client-cert-file=/root/fk/pki/kubernetes.pem --proxy-client-key-file=/root/fk/pki/kubernetes-key.pem --requestheader-allowed-names= --requestheader-extra-headers-prefix=X-Remote-Extra- --requestheader-group-headers=X-Remote-Group --requestheader-username-headers=X-Remote-User"
+KUBE_API_ARGS="--allow-privileged=true --enable-aggregator-routing=true --authorization-mode=RBAC --etcd-servers=http://192.168.106.237:2379 --insecure-bind-address=0.0.0.0 --insecure-port=9090 --service-cluster-ip-range=169.169.0.0/16 --service-node-port-range=1-65535 --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,ResourceQuota --logtostderr=false --log-dir=/var/log/kubernetes --v=2 --client-ca-file=/root/fk/pki/ca.pem --tls-cert-file=/root/fk/pki/kubernetes.pem --tls-private-key-file=/root/fk/pki/kubernetes-key.pem --requestheader-client-ca-file=/root/fk/pki/ca.pem --proxy-client-cert-file=/root/fk/pki/kubernetes.pem --proxy-client-key-file=/root/fk/pki/kubernetes-key.pem --requestheader-allowed-names= --requestheader-extra-headers-prefix=X-Remote-Extra- --requestheader-group-headers=X-Remote-Group --requestheader-username-headers=X-Remote-User"
+
+[root@managementa fk]# pwd
+/root/fk
+[root@managementa fk]# cat PodSecurityPolicy.yaml 
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: privileged
+  annotations:
+    seccomp.security.alpha.kubernetes.io/allowedProfileNames: '*'
+spec:
+  privileged: true
+  allowPrivilegeEscalation: true
+  allowedCapabilities:
+  - '*'
+  volumes:
+  - '*'
+  hostNetwork: true
+  hostPorts:
+  - min: 0
+    max: 65535
+  hostIPC: true
+  hostPID: true
+  runAsUser:
+    rule: 'RunAsAny'
+  seLinux:
+    rule: 'RunAsAny'
+  supplementalGroups:
+    rule: 'RunAsAny'
+  fsGroup:
+    rule: 'RunAsAny'
+
 ```
 
 
