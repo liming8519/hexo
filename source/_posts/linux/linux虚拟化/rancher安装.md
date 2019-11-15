@@ -286,3 +286,10 @@ root@managementa:~/fk/conf[root@managementa conf]# pwd
 root@managementa:~/fk/conf[root@managementa conf]# cat apiserver 
 KUBE_API_ARGS="--allow-privileged=true --enable-aggregator-routing=true --authorization-mode=RBAC --etcd-servers=http://192.168.106.237:2379 --insecure-bind-address=0.0.0.0 --insecure-port=9090 --service-cluster-ip-range=169.169.0.0/16 --service-node-port-range=1-65535 --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,ResourceQuota --logtostderr=false --log-dir=/var/log/kubernetes --v=2 --client-ca-file=/root/fk/pki/ca.pem --tls-cert-file=/root/fk/pki/kubernetes.pem --tls-private-key-file=/root/fk/pki/kubernetes-key.pem --requestheader-client-ca-file=/root/fk/pki/ca.pem --proxy-client-cert-file=/root/fk/pki/kubernetes.pem --proxy-client-key-file=/root/fk/pki/kubernetes-key.pem --requestheader-allowed-names= --requestheader-extra-headers-prefix=X-Remote-Extra- --requestheader-group-headers=X-Remote-Group --requestheader-username-headers=X-Remote-User"
 ```
+
+
+#### 删除时存在一直 Terminating解决
+
+问题在于metadata中存在 Finalizers
+    k8s 资源的 metadata 里如果存在 finalizers，那么该资源一般是由某程序创建的，并且在其创建的资源的 metadata 里的 finalizers 加了一个它的标识，这意味着这个资源被删除时需要由创建资源的程序来做删除前的清理，清理完了它需要将标识从该资源的 finalizers 中移除，然后才会最终彻底删除资源。比如 Rancher 创建的一些资源就会写入 finalizers 标识。
+处理建议：kubectl edit 手动编辑资源定义，删掉 finalizers，这时再看下资源，就会发现已经删掉了。
