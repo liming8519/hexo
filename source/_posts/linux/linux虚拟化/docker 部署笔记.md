@@ -200,6 +200,33 @@ ovs
 [root@localhost ~]# ip l set redis-veth0 up 
 [root@localhost ~]# ip l set redis-veth1 up  
 
+
+3台机器之间通信的配置
+
+[root@cloudsa ~]# ovs-vsctl add-br tomcat-br0
+[root@cloudsa ~]# ovs-vsctl add-port tomcat-br0 tomcat-gre0 -- set interface tomcat-gre0 type=gre options:remote_ip=192.168.106.103
+[root@cloudsa ~]# ovs-vsctl add-port tomcat-br0 tomcat-gre1 -- set interface tomcat-gre1 type=gre options:remote_ip=192.168.106.130
+[root@cloudsa ~]# ip link add tomcat-veth0 type veth peer name tomcat-veth1
+[root@cloudsa ~]# ovs-vsctl add-port tomcat-br0 tomcat-veth1 
+[root@cloudsa ~]# ip l set tomcat-veth0 master br-44322cf93398
+[root@cloudsa ~]# ip l set tomcat-veth0 up
+[root@cloudsa ~]# ip l set tomcat-veth1 up
+
+
+192.168.106.118执行
+[root@cloudsa ~]#ovs-vsctl add-port tomcat-br0 tomcat-gre0 -- set interface tomcat-gre0 type=gre options:remote_ip=192.168.106.103
+
+
+192.168.106.130，192.168.106.103执行
+[root@cloudsa ~]#ovs-vsctl add-port redis-br0 redis-gre1 -- set interface redis-gre1 type=gre options:remote_ip=192.168.106.118
+
+192.168.106.118执行
+ovs-vsctl set Bridge tomcat-br0 stp_enable=true
+192.168.106.130,192.168.106.103执行
+ovs-vsctl set Bridge redis-br0 stp_enable=true
+
+
+
 **重启docker会重载iptables配置**
 
 
