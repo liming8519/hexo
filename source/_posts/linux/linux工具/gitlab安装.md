@@ -90,3 +90,47 @@ gitlab-rails console production #进入控制台 ，可以修改root 的密码
 192.168.106.117安装git
 
 ```
+
+### gitlab-runner 使用
+```
+192.168.106.117
+[root@managementa ~]# sudo wget -O /usr/local/bin/gitlab-runner https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64
+[root@managementa ~]# chmod +x /usr/local/bin/gitlab-runner
+[root@managementa ~]# useradd --comment 'GitLab Runner' --create-home gitlab-runner --shell /bin/bash
+[root@managementa ~]# gitlab-runner install --user=gitlab-runner --working-directory=/home/gitlab-runner
+Runtime platform                                    arch=amd64 os=linux pid=5458 revision=05161b14 version=12.4.1
+[root@managementa ~]# gitlab-runner start
+Runtime platform                                    arch=amd64 os=linux pid=5719 revision=05161b14 version=12.4.1
+
+打开 gitlab 项目 -> 设置 -> CI / CD -> Runners 设置
+
+[root@managementa ~]# gitlab-runner register
+Runtime platform                                    arch=amd64 os=linux pid=10714 revision=05161b14 version=12.4.1
+Running in system-mode.                            
+                                                   
+Please enter the gitlab-ci coordinator URL (e.g. https://gitlab.com/):
+http://39.106.96.125:65535/
+Please enter the gitlab-ci token for this runner:
+hoz1f8fL3ZoMyyYmbLc5
+Please enter the gitlab-ci description for this runner:
+[managementa]: gitlab runner ci 测试
+Please enter the gitlab-ci tags for this runner (comma separated):
+pj-test-tag
+Registering runner... succeeded                     runner=hoz1f8fL
+Please enter the executor: docker-ssh+machine, docker-ssh, parallels, shell, ssh, virtualbox, docker+machine, kubernetes, custom, docker:
+shell
+Runner registered successfully. Feel free to start it, but if it's running already the config should be automatically reloaded! 
+[root@managementa gitlab-runner]# gitlab-runner list
+
+```
+
+### 编写 .gitlab-ci.yml 集成
+
+```
+[root@managementa gitlab-runner]# git clone http://39.106.96.125:65535/fengkai/pj-test.
+[root@managementa gitlab-runner]# cd pj-test/
+[root@managementa pj-test]# git remote -v
+origin  http://39.106.96.125:65535/fengkai/pj-test.git (fetch)
+origin  http://39.106.96.125:65535/fengkai/pj-test.git (push)
+
+```
