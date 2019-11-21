@@ -12,6 +12,7 @@ date: 2019-11-19 02:00:00
 ### gitlab安装
 
 ```
+例子中安装的是11.11.3版本，此版本和下面的gitlab-runner结合出现job一直running的情况，换成12.4.1版本则没有此问题。可能是gitlab-runner的版本是12.4.1与11.11.3的gitlab不匹配导致的
 root@yth-test:~[root@yth-test ~]# yum install -y curl policycoreutils-python openssh-server
 root@yth-test:~[root@yth-test ~]# getenforce 
 root@yth-test:~[root@yth-test ~]# wget -O gitlab.11.11.3.rpm https://packages.gitlab.com/gitlab/gitlab-ce/packages/el/7/gitlab-ce-11.11.3-ce.0.el7.x86_64.rpm/download.rpm
@@ -96,7 +97,15 @@ gitlab-rails console production #进入控制台 ，可以修改root 的密码
 192.168.106.117
 [root@managementa ~]# sudo wget -O /usr/local/bin/gitlab-runner https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64
 [root@managementa ~]# chmod +x /usr/local/bin/gitlab-runner
+[root@managementa ~]# gitlab-runner --version
+Version:      12.4.1
+Git revision: 05161b14
+Git branch:   12-4-stable
+GO version:   go1.10.8
+Built:        2019-10-28T12:49:57+0000
+OS/Arch:      linux/amd64
 [root@managementa ~]# useradd --comment 'GitLab Runner' --create-home gitlab-runner --shell /bin/bash
+可以指定root帐号，此时会减少一些权限的麻烦gitlab-runner install --user=root --working-directory=/home/gitlab-runner
 [root@managementa ~]# gitlab-runner install --user=gitlab-runner --working-directory=/home/gitlab-runner
 Runtime platform                                    arch=amd64 os=linux pid=5458 revision=05161b14 version=12.4.1
 [root@managementa ~]# gitlab-runner start
@@ -132,5 +141,34 @@ Runner registered successfully. Feel free to start it, but if it's running alrea
 [root@managementa pj-test]# git remote -v
 origin  http://39.106.96.125:65535/fengkai/pj-test.git (fetch)
 origin  http://39.106.96.125:65535/fengkai/pj-test.git (push)
+[root@managementa pj-test]# git config --global user.email "fengk@126.com"
+[root@managementa pj-test]# git config --global user.name "fengk"
+[root@managementa pj-test]# git add *
+[root@managementa pj-test]# git commit -m "tomcat" 
+[root@managementa pj-test]# git push  用户名要填入邮件名
 
+[root@managementa builds]# chmod 666 /var/run/docker.sock 其他用户可以访问docker
+[root@managementa pj-test]# cat Dockerfile 
+FROM 192.168.106.117/library/tomcat:8.5.35
+ADD webCache.war /usr/local/tomcat/webapps/
+[root@managementa pj-test]# cat .gitlab-ci.yml 
+stages:
+ - deploy
+job-build-image:
+ stage: deploy
+ allow_failure: true
+ script:
+  - /usr/local/docker/docker build -t 192.168.106.117/library/tomcat-webcache:0.01 -f Dockerfile .
+  - echo $?
+  - /usr/local/docker/docker push 192.168.106.117/library/tomcat-webcache:0.01
+  - echo $?
+ only:
+  - master
+ tags:
+  - hch-test 
+
+[root@managementa pj-test]# 
+
+[root@managementa pj-test]# ls
+Dockerfile  README.md  webCache.war
 ```

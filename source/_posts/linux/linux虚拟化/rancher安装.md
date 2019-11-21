@@ -12,6 +12,7 @@ date: 2019-11-14 02:00:00
 ### rancher安装
 
 ```
+使用的最稳定的版本为v2.3.0，请安装2.3.0
 直接通过docker镜像来运行我们的rancher，首先，先从镜像中心下载rancher镜像，如果是1.x系列的，镜像名为rancher/server，而2.x是rancher/rancher，我们使用2.x版本的，所以，执行如下命令即可：
 [root@managementa ~]# docker pull rancher/rancher
 [root@managementa ~]# docker inspect rancher/rancher
