@@ -1,5 +1,3 @@
-#  k8s rancher cattle-system 删除
-
 ---
 title:  k8s rancher cattle-system 删除
 tags:

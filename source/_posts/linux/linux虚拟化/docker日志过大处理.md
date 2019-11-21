@@ -1,5 +1,3 @@
-#  docker日志过大处理
-
 ---
 title:  docker日志过大处理
 tags:
