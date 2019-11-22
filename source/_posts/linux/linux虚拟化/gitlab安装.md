@@ -12,7 +12,15 @@ date: 2019-11-19 02:00:00
 ### gitlab安装
 
 ```
-例子中安装的是11.11.3版本，此版本和下面的gitlab-runner结合出现job一直running的情况，换成12.4.1版本则没有此问题。可能是gitlab-runner的版本是12.4.1与11.11.3的gitlab不匹配导致的
+例子中安装的是11.11.3版本，此版本和下面的gitlab-runner结合出现job一直running的情况，换成12.4.1版本则没有此问题。可能是gitlab-runner的版本是12.4.1与11.11.3的gitlab不匹配导致的(这种说法不对，貌似是单位防火墙导致的)，安装gitlab12.4.1时如果报错找不到文件，那么自己新建一个，配置如下：
+root@gitlab:~# cat /opt/gitlab/embedded/etc/90-omnibus-gitlab-*
+kernel.sem = 250 32000 32 262
+kernel.shmall = 4194304
+kernel.shmmax = 17179869184
+net.core.somaxconn = 1024
+
+
+下面是例子开始
 root@yth-test:~[root@yth-test ~]# yum install -y curl policycoreutils-python openssh-server
 root@yth-test:~[root@yth-test ~]# getenforce 
 root@yth-test:~[root@yth-test ~]# wget -O gitlab.11.11.3.rpm https://packages.gitlab.com/gitlab/gitlab-ce/packages/el/7/gitlab-ce-11.11.3-ce.0.el7.x86_64.rpm/download.rpm
@@ -77,6 +85,8 @@ gitlab-ctl uninstall #删除gitlab(保留数据）
 gitlab-ctl cleanse #删除所有数据，重新开始
 gitlab-ctl tail <svc_name>  #查看服务的日志
 gitlab-rails console production #进入控制台 ，可以修改root 的密码
+
+root密码root@123
 
 ```
 
@@ -151,9 +161,16 @@ origin  http://39.106.96.125:65535/fengkai/pj-test.git (push)
 [root@managementa pj-test]# cat Dockerfile 
 FROM 192.168.106.117/library/tomcat:8.5.35
 ADD webCache.war /usr/local/tomcat/webapps/
+[root@managementa pj-test]# cat redeploy.sh 
+#! /bin/bash
+
+DATE_NOW=$(date  +"%Y-%m-%d-%H:%m:%S")
+echo $DATE_NOW
+/root/fk/bin/kubectl -s 192.168.106.117:9090 patch deployment tomcat-infoverisystem -n hch-test --patch '{"spec": {"template": {"metadata": {"annotations": {"cattle.io/timestamp": "'${DATE_NOW}'"}}}}}'
 [root@managementa pj-test]# cat .gitlab-ci.yml 
 stages:
  - deploy
+
 job-build-image:
  stage: deploy
  allow_failure: true
@@ -162,13 +179,64 @@ job-build-image:
   - echo $?
   - /usr/local/docker/docker push 192.168.106.117/library/tomcat-webcache:0.01
   - echo $?
+  - ./redeploy.sh
  only:
   - master
  tags:
-  - hch-test 
+  - hch-test
 
 [root@managementa pj-test]# 
 
 [root@managementa pj-test]# ls
-Dockerfile  README.md  webCache.war
+Dockerfile  README.md  redeploy.sh  webCache.war
+```
+
+### gitlab https配置
+
+```
+[root@yth-test ~]# mkdir -p /etc/gitlab/ssl
+[root@yth-test ~]# chmod 700 /etc/gitlab/ssl
+[root@yth-test ~]# cd /etc/gitlab/ssl
+请查看k8s如何生成证书
+[root@yth-test ssl]# ls
+ca-config.json  ca-csr.json  ca.pem          kubernetes-csr.json  kubernetes.pem
+ca.csr          ca-key.pem   kubernetes.csr  kubernetes-key.pem
+[root@yth-test ssl]# vim /etc/gitlab/gitlab.rb
+external_url 'https://39.106.96.125:8888'
+nginx['ssl_certificate'] = "/etc/gitlab/ssl/kubernetes.pem"
+nginx['ssl_certificate_key'] = "/etc/gitlab/ssl/kubernetes-key.pem"
+[root@yth-test ssl]# gitlab-ctl reconfigure
+[root@yth-test ssl]# gitlab-ctl restart
+
+gitlab runner注册时，要把ca证书拷贝到runner的服务器：
+gitlab-runner register --tls-ca-file ./ca.pem 
+cat /etc/gitlab-runner/config.toml
+concurrent = 1
+check_interval = 0
+
+[session_server]
+  session_timeout = 1800
+
+[[runners]]
+  name = "hch-test"
+  url = "https://39.106.96.125:8888/"
+  token = "n1y5_USWu-P-s7jhvpX5"
+  tls-ca-file = "/home/gitlab-runner/ca.pem"
+  executor = "shell"
+  [runners.custom_build_dir]
+  [runners.cache]
+    [runners.cache.s3]
+    [runners.cache.gcs]
+    
+    
+    
+git的处理：
+git config --global credential.helper store##记住密码
+root@managementa:/home/gitlab-runner[root@managementa gitlab-runner]# git config --global http."sslVerify" false
+root@managementa:/home/gitlab-runner[root@managementa gitlab-runner]# git config -l
+user.email=fengk@126.com
+user.name=fengkai
+remote.origin.url=https://39.106.96.125:8888/fengk/pj-test.git
+
+http.sslverify=false###关键
 ```
