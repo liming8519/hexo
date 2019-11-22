@@ -2119,4 +2119,36 @@ spec:
 
 ```
 
+### ingress配置dashboard
 
+```
+
+[root@managementa fk]# openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./tls.key -out ./tls.crt -subj "/CN=dashboard-server"
+[root@managementa fk]# kubectl -n kubernetes-dashboard  create secret tls k8s-dashboard-secret --key ./tls.key --cert ./tls.crt
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+    nginx.ingress.kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+  creationTimestamp: "2019-11-22T03:21:03Z"
+  generation: 12
+  name: dashboard
+  namespace: kubernetes-dashboard
+  resourceVersion: "1712047"
+  selfLink: /apis/extensions/v1beta1/namespaces/kubernetes-dashboard/ingresses/dashboard
+  uid: 8d33834a-41f2-42b1-b25b-0146fab7304d
+spec:
+  rules:
+  - host: dashboard-server
+    http:
+      paths:
+      - backend:
+          serviceName: kubernetes-dashboard
+          servicePort: 8443
+        path: /
+  tls:
+  - secretName: k8s-dashboard-secret
+```
