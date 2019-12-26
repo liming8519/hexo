@@ -1,4 +1,3 @@
-
 ---
 title: kafka的SASL配置
 tags: 
@@ -27,6 +26,7 @@ KafkaServer {
     org.apache.kafka.common.security.plain.PlainLoginModule required
     username="kafka"#这个帐号是下面配置的
     password="password"#这个密码是下面配置的
+    ##解释，下面的格式是user_用户名="密码"，而上面broker使用的帐号密码就是下面配置的，上面broker使用的帐号密码分别是kafka和password，而kafka和password是下面设置的。
     user_kafka="password"
     user_mooc="mooc";
 };
