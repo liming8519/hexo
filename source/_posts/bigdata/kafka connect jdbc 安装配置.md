@@ -48,12 +48,24 @@ curl 192.168.106.119:8083/connector-plugins | python -m json.tool
 
 
 ```
-## 关于kafka的scram的相关配置
+## 关于kafka的scram的相关配置(重要)
 ```
 [root@cloudsb kafka_2.12-2.1.1]# vi config/connect-distributed.properties 
 sasl.jaas.config=org.apache.kafka.common.security.scram.ScramLoginModule required username="car_record_user" password="123456";
 security.protocol=SASL_PLAINTEXT
 sasl.mechanism=SCRAM-SHA-256
+
+
+
+producer.security.protocol=SASL_PLAINTEXT
+producer.sasl.mechanism=SCRAM-SHA-256
+producer.sasl.jaas.config=org.apache.kafka.common.security.scram.ScramLoginModule required username="admin" password="123456";
+
+
+consumer.security.protocol=SASL_PLAINTEXT
+consumer.sasl.mechanism=SCRAM-SHA-256
+consumer.sasl.jaas.config=org.apache.kafka.common.security.scram.ScramLoginModule required username="admin" password="123456";
+~                                                                                                                                  
 ```
 ## 配置
 ```
