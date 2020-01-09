@@ -13,6 +13,7 @@ date: 2019-12-26 02:00:00
 
 
 ## 安装
+136,137,138
 confluent官网下载kafka-connect-jdbc，获取kafka-connect-jdbc.jar包，把jar包放在kafka的lib下，同时下载mysql的驱动到kafka的lib目录下。
 
 ```
