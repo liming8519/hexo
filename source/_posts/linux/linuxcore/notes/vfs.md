@@ -2,7 +2,7 @@
 tags: [linux]
 title: vfs
 created: '2020-03-10T03:53:25.930Z'
-modified: '2020-03-10T06:58:37.220Z'
+modified: '2020-03-13T04:36:14.014Z'
 ---
 
 > vfs
@@ -378,6 +378,7 @@ struct vfsmount {
 };
 
 ```
+被Linux支持的文件系统，都有且仅有一个file_system_type结构而不管它有零个或多个实例被安装到系统 中。每安装一个文件系统，就对应有一个超级块和安装点。超级块通过它的一个域s_type指向其对应的具体的文件系统类型。具体的 文件系统通过file_system_type中的一个域fs_supers链接具有同一种文件类型的超级块。同一种文件系统类型的超级块通过域s_instances链接。
 
 ![][5]
 
