@@ -1,7 +1,8 @@
 ---
+tags: [linux]
 title: xfs 分析
 created: '2020-03-15T14:11:10.370Z'
-modified: '2020-03-16T03:08:58.605Z'
+modified: '2020-03-18T15:10:53.877Z'
 ---
 
 > xfs 分析
