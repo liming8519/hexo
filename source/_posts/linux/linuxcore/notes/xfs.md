@@ -1,10 +1,12 @@
 ---
+tags: [linux]
 title: xfs
 created: '2020-03-13T07:00:37.597Z'
-modified: '2020-03-13T07:48:07.437Z'
+modified: '2020-03-18T15:10:45.018Z'
 ---
 
 > xfs
+<!-- more -->
 
 ## xfs_sb_t
 

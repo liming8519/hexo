@@ -1,12 +1,13 @@
 ---
-deleted: true
-tags: [linux, struct]
+tags: [linux]
 title: 数据结构task_struct
 created: '2020-03-12T01:25:28.950Z'
-modified: '2020-03-12T01:31:31.368Z'
+modified: '2020-03-18T15:11:28.798Z'
 ---
 
 > 数据结构task_struct
+
+<!-- more -->
 
 ```c++
 struct task_struct {
